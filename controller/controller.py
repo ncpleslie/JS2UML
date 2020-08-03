@@ -4,4 +4,8 @@ class Controller():
         self.model = model
 
     def run(self):
-        self.console_view.msg(self.model.get_value())
+        self.console_view.msg("Please enter a file path")
+        file_path = self.console_view.get_file_path()
+        file = " ".join(open(file_path).readlines())
+        self.model.parse(file)
+        self.console_view.msg(self.model.get_results())

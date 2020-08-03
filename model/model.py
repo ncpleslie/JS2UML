@@ -1,6 +1,12 @@
+import esprima
+
+
 class Model():
     def __init__(self):
-        self.placeholder_value = "Test"
+        self.parse_results = None
 
-    def get_value(self):
-        return self.placeholder_value
+    def parse(self, input):
+        self.parse_results = esprima.parseScript(input)
+
+    def get_results(self):
+        return self.parse_results
