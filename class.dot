@@ -1,0 +1,6 @@
+digraph class {
+	Hospital [label="{Hospital||admitAPatient()\ltreatPatient()\ldischargeAPatient()}" shape=record]
+	Doctor [label="{Doctor|name|check()}" shape=record]
+	Nurse [label="{Nurse|name|cure()}" shape=record]
+	Patient [label="{Patient|issue|tellSymptons()\lfeelBetter()}" shape=record]
+}
