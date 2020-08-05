@@ -1,7 +1,6 @@
-from controller.controller import Controller
-from console_view.console_view import ConsoleView
-from model.model import Model
+from src.controller import Controller
+from src.console_view import ConsoleView
 
 
 if __name__ == "__main__":
-    Controller(ConsoleView(), Model()).run()
+    Controller(ConsoleView()).run()

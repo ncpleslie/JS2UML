@@ -1,9 +1,9 @@
 class ConsoleView():
     def __init__(self):
-        self.file_path = "tests/js_files/index.js"
+        self.file_path = "tests/index.js"
 
     def msg(self, message):
-        print("")
+        print(message)
 
     def get_file_path(self):
         return self.file_path

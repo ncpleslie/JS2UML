@@ -1,6 +1,6 @@
 class Patient {
     constructor(issue) {
-        this.issue = issue;
+        this.issue = new Object();
     }
 
     tellSymptons() {
