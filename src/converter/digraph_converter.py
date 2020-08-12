@@ -1,9 +1,9 @@
 from graphviz import Digraph as DG
 
 
-class Digraph():
+class DigraphConverter():
     def __init__(self):
-        self.__dot_graph = DG("class")
+        self.__dot_graph = DG("class_diagram")
 
     def convert(self, input):
         for data in input:
@@ -19,5 +19,10 @@ class Digraph():
         for edge in data['edges']:
             self.__dot_graph.edge(data['class_name'], edge)
 
-    def render(self):
-        self.__dot_graph.render('class')
+    def render(self, dot_graph, filename):
+        if dot_graph:
+            dot_graph.render(filename)
+        elif self.__dot_graph:
+            self.__dot_graph.render(filename)
+        else:
+            raise Exception('Undefined dot graph')
