@@ -1,5 +1,7 @@
-from controller.controller import Controller
-from console_view.console_view import ConsoleView
-from model.model import Model
+from src.controller import Controller
+from src.console_view.console_view import ConsoleView
+from src.converter.converter import Converter
 
-Controller(ConsoleView(), Model()).run()
+
+if __name__ == "__main__":
+    Controller(ConsoleView(), Converter()).run()
