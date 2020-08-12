@@ -9,8 +9,9 @@ from src.console_view.abstract_console_view import AbstractConsoleView
 
 
 class ConsoleView(AbstractConsoleView):
-    def show(self, message):
-        print(message)
+    def show(self, msg: str):
+        print(msg)
 
-    def get_input(self):
+    def get_input(self, msg: str) -> str:
+        print(msg)
         return input()

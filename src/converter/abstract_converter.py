@@ -14,5 +14,5 @@ class AbstractConverter(ABC):
         raise NotImplementedError('subclasses must override convert()!')
 
     @abstractmethod
-    def save(self):
+    def save(self, dot_graph, filename: str):
         raise NotImplementedError('subclasses must override save()!')
