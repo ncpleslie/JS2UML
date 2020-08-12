@@ -1,3 +1,10 @@
+"""==========================================
+; Title:  Read/Write for JS/TS files
+; Author: Nick Leslie
+; Date:   5/08/2020
+=============================================
+"""
+
 from esprima import parse
 
 

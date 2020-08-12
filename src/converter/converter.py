@@ -1,3 +1,10 @@
+"""==========================================
+; Title:  Middleware for JS Parser and Digraph
+; Author: Nick Leslie
+; Date:   12/08/2020
+=============================================
+"""
+
 from src.converter.abstract_converter import AbstractConverter
 from src.converter.js_parser import JSParser
 from src.converter.digraph_converter import DigraphConverter

@@ -1,3 +1,10 @@
+"""==========================================
+; Title:  Abstract JS to UML converter
+; Author: Nick Leslie
+; Date:   12/08/2020
+=============================================
+"""
+
 from abc import ABC, abstractmethod
 
 
