@@ -6,6 +6,7 @@
 """
 
 from esprima import parse
+from src.models.body_type import BodyType
 
 
 class JSParser():
@@ -14,14 +15,17 @@ class JSParser():
         self.__results = []
 
     def parse(self, input: str):
-        self.__parse_results = parse(input)
-        self.__extract_js_data()
-        return self.__results
+        try:
+            self.__parse_results = parse(input)
+            self.__extract_js_data()
+            return self.__results
+        except:
+            raise Exception('Failed to parse JS')
 
     def __get_attributes(self, data: dict) -> list:
         attributes = []
         for body in data.body.body:
-            if body.type == "MethodDefinition" and body.key.name == "constructor":
+            if body.type == BodyType.METHOD.value and body.key.name == BodyType.CONSTRUCTOR.value:
                 for aAttribute in body.value.body.body:
                     attributes.append(
                         aAttribute.expression.left.property.name)
@@ -30,8 +34,8 @@ class JSParser():
     def __get_methods(self, data: dict) -> list:
         methods = []
         for body in data.body.body:
-            if body.type == "MethodDefinition":
-                if body.key.name != "constructor":
+            if body.type == BodyType.METHOD.value:
+                if body.key.name != BodyType.CONSTRUCTOR.value:
                     methods.append(body.key.name)
         return methods
 
@@ -42,20 +46,20 @@ class JSParser():
         relationship = set()
         for body in data.body.body:
             for deepBody in body.value.body.body:
-                if deepBody.expression and deepBody.expression.right and deepBody.expression.right.type == "NewExpression":
+                if deepBody.expression and deepBody.expression.right and deepBody.expression.right.type == BodyType.NEW.value:
                     relationship.add(deepBody.expression.right.callee.name)
         for body in data.body.body:
-            if body.type == "MethodDefinition" and body.key.name != "constructor":
+            if body.type == BodyType.METHOD.value and body.key.name != BodyType.CONSTRUCTOR.value:
 
                 for aMethod in body.value.body.body:
                     if aMethod.declarations:
                         for aDeclaration in aMethod.declarations:
-                            if aDeclaration.init.type == "NewExpression":
+                            if aDeclaration.init.type == BodyType.NEW.value:
                                 relationship.add(aDeclaration.init.callee.name)
 
                     if aMethod.expression and aMethod.expression.arguments:
                         for aArgument in aMethod.expression.arguments:
-                            if aArgument.type == "NewExpression":
+                            if aArgument.type == BodyType.NEW.value:
                                 relationship.add(aArgument.callee.name)
         return relationship
 
@@ -67,13 +71,3 @@ class JSParser():
             relationship = self.__get_relationship(data)
             self.__results.append(
                 {"class_name": class_name, "attributes": attributes, "methods": methods, "edges": relationship})
-
-    def __recursive_lookup(self, value, nested_dict, prepath=()):
-        for k, v in nested_dict.items():
-            path = prepath + (k, v)
-            if v == value:  # found value
-                return path
-            elif hasattr(v, 'items'):  # v is a dict
-                p = self.__recursive_lookup(value, v, path)  # recursive call
-                if p is not None:
-                    return p

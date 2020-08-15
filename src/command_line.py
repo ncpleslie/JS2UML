@@ -16,9 +16,17 @@ class CommandLine(Cmd):
         super().__init__(self)
         self._controller = controller
 
+    def do_test(self, args):
+        print(args.foo, args.bar)
+
     def do_setup(self, arg):
-        print('Failed set up')
+        "Setup allows you initialise the program and set the configurations you want. These include default output directory, default output file type, default output name. Setup will even allow you to set a MongoDB as your prefered backup location"
+        self._controller.setup()
 
     def do_parse(self, arg):
-        'THIS IS A STRING THAT NEEDS TO BE REPLACED'
-        self._controller.run()
+        "Call this to parse any JS file to a UML class diagram. You can exclude the option arguments(filename or directory, the output path and filetype) but the system will ask for you them anyway. Supported output types: 'bmp', 'jpg', 'jpeg', 'pdf', 'png', 'svg', 'webp'. Expected use: `parse - f < filename or directory > -o < output > -t < filetype >` or simply, `parse`."
+        self._controller.parse(arg)
+
+    def do_exit(self, arg):
+        "Exits the command line"
+        self._controller.exit()
