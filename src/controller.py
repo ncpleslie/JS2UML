@@ -9,6 +9,8 @@ from errno import EACCES, ENOENT
 from src.io.read_write import ReadWrite
 from src.console_view.abstract_console_view import AbstractConsoleView
 from src.converter.abstract_converter import AbstractConverter
+from src.errors.digraph_save_exception import DigraphSaveException
+from src.io.config import Config
 
 
 class Controller:
@@ -33,6 +35,7 @@ class Controller:
         self._read_write = ReadWrite()
         # Argparser for parsing arguments and flags from command line
         self.__parser = ArgumentParser()
+        # JS Parser arguments
         # File/directory location of the JS files
         self.__parser.add_argument("-f")
         # Output file/directory of the UML class diagram
@@ -58,6 +61,24 @@ class Controller:
         file_format = None
         parsed_args = None
 
+        # Get stored config
+        try:
+            file_path = Config.get_default_storage_location()
+            filename = Config.get_default_filename()
+            file_format = Config.get_default_filetype()
+        except FileNotFoundError as error:
+            # This will mean that a config file hasn't been set up
+            # This is an expected error if the user skips the
+            # setup processes.
+            # Passing this error is the expected step to take
+            pass
+        except (IOError, OSError):
+            self._console_view.show(
+                "Unable to load config file. It may have become corrupt or we don't \
+                    have permission to access it. Run setup command again to \
+                    fix this issue")
+            pass
+
         # Parse arguments from user, if the exist
         if args:
             parsed_args = self.__parse_args(args)
@@ -72,36 +93,84 @@ class Controller:
                 "Please enter the directory or "
                 "filename of the JS/TS file(s)"
             )
+        # Ask user what they want the file called
+        if not filename:
+            filename = self._console_view.get_input("Save file as?")
+        # Ask user their preferred file type
+        if not file_format:
+            file_format = self._console_view.get_input(
+                "File format? [bmp, jpg, jpeg, pdf, png, svg, webp]")
+
         try:
-            # Get file and join it up with " "
+            # Get file
             file = self._read_write.load_file(file_path)
         except IOError as error:
             self.__file_reader_error_handler(error)
 
-            # Convert file to dot graph
+        # Convert file to dot graph
         try:
             dot_graph = self._converter.convert(file)
         except TypeError:
             self._console_view.show(
                 "Was that a valid JS file?. Let's try again")
             self.parse()
-
-        # Ask user what they want the file called
-        if not filename:
-            filename = self._console_view.get_input("Save file as?")
-        if not file_format:
-            file_format = self._console_view.get_input("File format?")
+        except Exception as error:
+            # ESPrima will throw a generic error called "Error"
+            if type(error).__name__ == "Error":
+                self._console_view.show(
+                    "Was that a valid JS file?. If it was TS, we can't parse that yet. Let's try again")
+                self.parse()
 
         # Save dot graph to set file format
         try:
             self._converter.save(dot_graph, filename, file_format)
-        except Exception:  # TODO CHANGE THIS
-            self._console_view.show(
-                "I couldn't save that for some reason. "
-                "Let's try again"
-            )
-            self.parse()
+        except (DigraphSaveException, TypeError, UnboundLocalError):
+            self.__save_error_handler()
         self.exit()
+
+    def setup(self, args=None) -> None:
+        """Guides the user through the set up process. "\
+            "Setting default output directory, filetype and name. "\
+            "This includes the setup of MongoDB
+
+        Alternatively, using the following flags:
+            -f <filename>
+            -o <output>
+            -t <filetype>
+        """
+        file_path = None
+        filename = None
+        file_format = None
+        parsed_args = None
+
+        # Parse arguments from user, if the exist
+        if args:
+            parsed_args = self.__parse_args(args)
+
+        if parsed_args:
+            file_path = parsed_args.f
+            filename = parsed_args.o
+            file_format = parsed_args.t
+
+        if not file_path:
+            file_path = self._console_view.get_input("Default file location?")
+
+        if not filename:
+            filename = self._console_view.get_input("Default file name?")
+
+        if not file_format:
+            file_format = self._console_view.get_input(
+                "Default file format? [bmp, jpg, jpeg, pdf, png, svg, webp]")
+
+        try:
+            Config.set_default_storage_location(file_path)
+            Config.set_default_filename(filename)
+            Config.set_default_filetype(file_format)
+        except (IOError, OSError):
+            self._console_view.show(
+                "The wrong file type may have been selected or you may not have permission to open that file. Please try again")
+            self.setup()
+        print(Config.get_default_filename())
 
     def __file_reader_error_handler(self, error):
         if error.errno == EACCES:
@@ -116,13 +185,14 @@ class Controller:
             )
         self.parse()
 
-    def setup(self) -> None:
-        """Guides the user through the set up process. "\
-            "Setting default output directory, filetype and name. "\
-            "This includes the setup of MongoDB"""
-        print("not created")
-
     def __parse_args(self, args: str) -> Namespace:
         """Parses arguments passed from the command-line"""
         if args:
             return self.__parser.parse_args(args.split())
+
+    def __save_error_handler(self) -> None:
+        self._console_view.show(
+            "I couldn't save that for some reason. "
+            "Let's try again"
+        )
+        self.parse()

@@ -15,7 +15,7 @@ class ReadWrite(AbstractReadWrite):
     """
 
     def __init__(self):
-        self.__default_file_endings = ("js", "ts")
+        self.__default_file_endings = ("js")
         self.__default_directory_endings = ("/", "\\")
 
     def load_file(self, input: str) -> str:
