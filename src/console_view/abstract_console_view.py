@@ -11,8 +11,8 @@ from abc import ABC, abstractmethod
 class AbstractConsoleView(ABC):
     @abstractmethod
     def show(self, msg: str):
-        raise NotImplementedError('subclasses must override show()!')
+        raise NotImplementedError("subclasses must override show()!")
 
     @abstractmethod
     def get_input(self, msg: str):
-        raise NotImplementedError('subclasses must override get_input()!')
+        raise NotImplementedError("subclasses must override get_input()!")

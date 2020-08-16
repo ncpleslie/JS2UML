@@ -11,4 +11,4 @@ from abc import ABC, abstractmethod
 class AbstractReadWrite(ABC):
     @abstractmethod
     def load_file(self, input: str):
-        raise NotImplementedError('subclasses must override load_file()!')
+        raise NotImplementedError("subclasses must override load_file()!")

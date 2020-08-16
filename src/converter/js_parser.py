@@ -9,7 +9,7 @@ from esprima import parse
 from src.models.body_type import BodyType
 
 
-class JSParser():
+class JSParser:
     def __init__(self):
         self.__parse_results = None
         self.__results = []
@@ -19,16 +19,18 @@ class JSParser():
             self.__parse_results = parse(input)
             self.__extract_js_data()
             return self.__results
-        except:
-            raise Exception('Failed to parse JS')
+        except TypeError as error:
+            raise error
 
     def __get_attributes(self, data: dict) -> list:
         attributes = []
         for body in data.body.body:
-            if body.type == BodyType.METHOD.value and body.key.name == BodyType.CONSTRUCTOR.value:
+            if (
+                body.type == BodyType.METHOD.value
+                and body.key.name == BodyType.CONSTRUCTOR.value
+            ):
                 for aAttribute in body.value.body.body:
-                    attributes.append(
-                        aAttribute.expression.left.property.name)
+                    attributes.append(aAttribute.expression.left.property.name)
         return attributes
 
     def __get_methods(self, data: dict) -> list:
@@ -46,10 +48,17 @@ class JSParser():
         relationship = set()
         for body in data.body.body:
             for deepBody in body.value.body.body:
-                if deepBody.expression and deepBody.expression.right and deepBody.expression.right.type == BodyType.NEW.value:
+                if (
+                    deepBody.expression
+                    and deepBody.expression.right
+                    and deepBody.expression.right.type == BodyType.NEW.value
+                ):
                     relationship.add(deepBody.expression.right.callee.name)
         for body in data.body.body:
-            if body.type == BodyType.METHOD.value and body.key.name != BodyType.CONSTRUCTOR.value:
+            if (
+                body.type == BodyType.METHOD.value
+                and body.key.name != BodyType.CONSTRUCTOR.value
+            ):
 
                 for aMethod in body.value.body.body:
                     if aMethod.declarations:
@@ -70,4 +79,10 @@ class JSParser():
             methods = self.__get_methods(data)
             relationship = self.__get_relationship(data)
             self.__results.append(
-                {"class_name": class_name, "attributes": attributes, "methods": methods, "edges": relationship})
+                {
+                    "class_name": class_name,
+                    "attributes": attributes,
+                    "methods": methods,
+                    "edges": relationship,
+                }
+            )

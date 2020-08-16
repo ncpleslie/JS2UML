@@ -13,5 +13,5 @@ class ConsoleView(AbstractConsoleView):
         print(msg)
 
     def get_input(self, msg: str) -> str:
-        print(msg)
+        self.show(msg)
         return input()
