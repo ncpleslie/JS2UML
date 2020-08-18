@@ -1,3 +1,10 @@
+"""==========================================
+; Title:  Config Saver/Loader
+; Author: Nick Leslie
+; Date:   18/08/2020
+=============================================
+"""
+
 from pickle import Pickler, dump, load
 
 

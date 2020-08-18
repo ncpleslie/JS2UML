@@ -34,12 +34,8 @@ class JSParser:
         return attributes
 
     def __get_methods(self, data: dict) -> list:
-        methods = []
-        for body in data.body.body:
-            if body.type == BodyType.METHOD.value:
-                if body.key.name != BodyType.CONSTRUCTOR.value:
-                    methods.append(body.key.name)
-        return methods
+        return [body.key.name for body in data.body.body if body.type ==
+                BodyType.METHOD.value and body.key.name != BodyType.CONSTRUCTOR.value]
 
     def __get_class(self, body: dict) -> str:
         return body.id.name
