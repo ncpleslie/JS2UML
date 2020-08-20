@@ -12,8 +12,25 @@ from src.models.body_type_enum import BodyType
 class JSParser:
     """The JavaScript Parser. Will convert the file contents of JavaScript class into class names, attributes, methods and relationships
 
-        Example:
-            JSParser().parse(<file-contents>)
+    >>> results = parse("class Test {}")
+    >>> print(results)
+    {
+        type: "Program",
+        sourceType: "script",
+        body: [
+            {
+                type: "ClassDeclaration",
+                id: {
+                    type: "Identifier",
+                    name: "Test"
+                },
+                body: {
+                    type: "ClassBody",
+                    body: []
+                }
+            }
+        ]
+    }
     """
 
     def __init__(self):
@@ -31,6 +48,26 @@ class JSParser:
 
         Returns:
             dist[]: A list of dicts. Each dict is a class
+
+        >>> results = parse("class Test {}")
+        >>> print(results)
+        {
+            type: "Program",
+            sourceType: "script",
+            body: [
+                {
+                    type: "ClassDeclaration",
+                    id: {
+                        type: "Identifier",
+                        name: "Test"
+                    },
+                    body: {
+                        type: "ClassBody",
+                        body: []
+                    }
+                }
+            ]
+        }
         """
         try:
             self.__parse_results = parse(input)
