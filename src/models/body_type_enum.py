@@ -9,6 +9,14 @@ from enum import Enum
 
 
 class BodyType(Enum):
+    """The different types of parts of a parsed JS file
+    """
+
+    # The string representation of a method
     METHOD = "MethodDefinition"
+
+    # The string representation of a constructor
     CONSTRUCTOR = "constructor"
+
+    # The string representation of a new object
     NEW = "NewExpression"

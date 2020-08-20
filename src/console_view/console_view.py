@@ -9,9 +9,25 @@ from src.console_view.abstract_console_view import AbstractConsoleView
 
 
 class ConsoleView(AbstractConsoleView):
-    def show(self, msg: str):
+    """For display and extract user input on the console
+    """
+
+    def show(self, msg: str) -> None:
+        """Will display a string on the console screen
+
+        Args:
+            msg (str): What will be shown in the console
+        """
         print(msg)
 
     def get_input(self, msg: str) -> str:
+        """Will display a message and return the string response from the user
+
+        Args:
+            msg (str): The message that will be shown to the user
+
+        Returns:
+            str: The users response
+        """
         self.show(msg)
         return input()

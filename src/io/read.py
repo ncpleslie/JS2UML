@@ -7,24 +7,39 @@
 
 from os import listdir, path
 from errno import EACCES
-from src.io.abstract_read_write import AbstractReadWrite
+from src.io.abstract_read import AbstractRead
 
 
-class ReadWrite(AbstractReadWrite):
-    """
+class Read(AbstractRead):
+    """Will read files from the device
     """
 
     def __init__(self):
         self.__default_file_endings = ("js")
-        self.__default_directory_endings = ("/", "\\")
 
     def load_file(self, input: str) -> str:
+        """Loads a file or directory to memory
+
+        Args:
+            input (str): the filename or directory
+
+        Returns:
+            str: The file's contents
+        """
         if path.isfile(input):
             return self.__read_file(input)
         elif path.isdir(input):
             return self.__read_directory(input)
 
     def __read_directory(self, directory: str) -> str:
+        """Read the contents of a file directory
+
+        Args:
+            directory (str): The directory name
+
+        Returns:
+            str: All the files contents
+        """
         file_contents = ""
         for file in listdir(directory):
             file_contents += self.__read_file(
@@ -32,6 +47,17 @@ class ReadWrite(AbstractReadWrite):
         return file_contents
 
     def __read_file(self, filename: str) -> str:
+        """Reads a single file
+
+        Args:
+            filename (str): The filename
+
+        Raises:
+            io_error: If invalid filetype
+
+        Returns:
+            str: The files contents
+        """
         try:
             if filename.lower().endswith(self.__default_file_endings):
                 with open(filename, "r") as file:

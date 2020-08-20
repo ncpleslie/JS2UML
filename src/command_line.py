@@ -4,21 +4,29 @@
 ; Date:   12/08/2020
 =============================================
 """
-
 from cmd import Cmd
-from src.io.read_write import ReadWrite
 
 
 class CommandLine(Cmd):
-    intro = "JS2UML - A CLI application for converting JavaScript "\
+    intro = "\nJS2UML - Convert JavaScript "\
         "(ECMAScript 2015+) to UML class diagrams."\
-        "\nType help or ? to list commands.\nIf this is your first"\
-        "time running this program, please run 'setup'"
+        "\nType help or ? to list commands."\
+        "\nType help <command> for detailed information\n"
     prompt = "JS2UML >>> "
 
     def __init__(self, controller):
         super().__init__(self)
         self._controller = controller
+
+    def do_exit(self, arg):
+        "Exits the command line"
+        self._controller.exit()
+
+    def do_help(self, arg):
+        if arg:
+            super().do_help(arg)
+        else:
+            self._controller.help()
 
     def do_setup(self, arg):
         "Setup allows you initialise the program and set the configurations "\
@@ -42,7 +50,3 @@ class CommandLine(Cmd):
             "`parse -f <filename or directory> -o <output> -t <filetype>` "\
             "or simply, `parse`.\n"
         self._controller.parse(arg)
-
-    def do_exit(self, arg):
-        "Exits the command line"
-        self._controller.exit()

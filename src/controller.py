@@ -6,7 +6,7 @@
 """
 from argparse import ArgumentParser, Namespace
 from errno import EACCES, ENOENT
-from src.io.read_write import ReadWrite
+from src.io.read import Read
 from src.console_view.abstract_console_view import AbstractConsoleView
 from src.converter.abstract_converter import AbstractConverter
 from src.errors.digraph_save_exception import DigraphSaveException
@@ -32,7 +32,7 @@ class Controller:
         # JS Parser
         self._converter = converter
         # File/directory reader
-        self._read_write = ReadWrite()
+        self._read = Read()
         # Argparser for parsing arguments and flags from command line
         self.__parser = ArgumentParser()
         # JS Parser arguments
@@ -42,6 +42,11 @@ class Controller:
         self.__parser.add_argument("-o")
         # Filetype (image) of the output UML class diagram
         self.__parser.add_argument("-t")
+
+    def help(self) -> None:
+        """Displays the help screen"""
+        self._console_view.show(
+            "setup     Set default filenames, directories and filetypes\nparse     Convert a JavaScript file to a UML class diagram\nexit      Exits the program")
 
     def exit(self) -> None:
         """Exits the programs"""
@@ -103,7 +108,7 @@ class Controller:
 
         try:
             # Get file
-            file = self._read_write.load_file(file_path)
+            file = self._read.load_file(file_path)
         except IOError as error:
             self.__file_reader_error_handler(error)
 
