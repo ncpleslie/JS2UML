@@ -71,6 +71,8 @@ class Config(Pickler):
 
         Args:
             default_filename (str): filename
+
+        >>> Config.set_default_filename("filename")
         """
         if default_filename:
             filename_dict = {'default_filename': default_filename}
@@ -85,6 +87,7 @@ class Config(Pickler):
 
         Raises:
             IOError: if wrong file type
+        >>> Config.set_default_filetype("png")
         """
         if default_filetype and default_filetype in cls.__accepted_file_formats:
             filetype_dict = {'default_filetype': default_filetype}
@@ -98,6 +101,7 @@ class Config(Pickler):
 
         Args:
             storage_location (str): default storage location
+        >>> Config.set_default_storage_location("tests")
         """
         if storage_location:
             storage_dict = {'storage_location': storage_location}
@@ -135,8 +139,6 @@ class Config(Pickler):
             error: IOerror, OSError if unable to save
         """
         try:
-            print("saving")
-            print(data)
             with open(path.join(path.realpath('.'), 'config', list(data.keys())[0]), 'wb') as config:
                 dump(data, config)
         except (IOError, OSError) as error:

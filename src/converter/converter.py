@@ -57,6 +57,9 @@ class Converter(AbstractConverter):
 
         Raises:
             DigraphSaveException: Thrown if unable to save
+
+        >>> t = Converter()
+        >>> t.save(Digraph(), "filename", "png")
         """
         try:
             DigraphConverter().render(dot_graph, filename)

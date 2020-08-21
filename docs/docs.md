@@ -21,6 +21,12 @@ png
 >>> print(result)
 tests
 
+>>> Config.set_default_filename("filename")
+
+>>> Config.set_default_filetype("png")
+
+>>> Config.set_default_storage_location("tests")
+
 >>> t = Converter()
 >>> results = t.convert("class Patient {\
     constructor(issue) {\
@@ -31,6 +37,9 @@ digraph class_diagram {
     Patient [label="{Patient|issue|constructor()}" shape=record]
     Patient -> Object
 }
+
+>>> t = Converter()
+>>> t.save(Digraph(), "filename", "png")
 
 >>> t = DigraphConverter()
 >>> results = t.convert([{'class_name': 'Patient', 'attributes': ['issue'], 'methods': ['constructor'], 'edges': {'Object'}}])
