@@ -26,6 +26,17 @@ class Converter(AbstractConverter):
 
         Returns:
             Digraph: The DOT graph of the JS file
+
+        >>> t = Converter()
+        >>> results = t.convert("class Patient {\
+            constructor(issue) {\
+                this.issue = new Object();\
+                    }}")
+        >>> print(results)
+        digraph class_diagram {
+            Patient [label="{Patient|issue|constructor()}" shape=record]
+            Patient -> Object
+        }
         """
         try:
             parsed_js = JSParser().parse(input)

@@ -5,32 +5,13 @@
 =============================================
 """
 
-from esprima import parse
-from src.models.body_type_enum import BodyType
+from esprima import parse as js_parse
+from .body_type_enum import BodyType
 
 
 class JSParser:
     """The JavaScript Parser. Will convert the file contents of JavaScript class into class names, attributes, methods and relationships
 
-    >>> results = parse("class Test {}")
-    >>> print(results)
-    {
-        type: "Program",
-        sourceType: "script",
-        body: [
-            {
-                type: "ClassDeclaration",
-                id: {
-                    type: "Identifier",
-                    name: "Test"
-                },
-                body: {
-                    type: "ClassBody",
-                    body: []
-                }
-            }
-        ]
-    }
     """
 
     def __init__(self):
@@ -49,28 +30,16 @@ class JSParser:
         Returns:
             dist[]: A list of dicts. Each dict is a class
 
-        >>> results = parse("class Test {}")
+        >>> t = JSParser()
+        >>> results = t.parse("class Patient {\
+            constructor(issue) {\
+                this.issue = new Object();\
+                    }}")
         >>> print(results)
-        {
-            type: "Program",
-            sourceType: "script",
-            body: [
-                {
-                    type: "ClassDeclaration",
-                    id: {
-                        type: "Identifier",
-                        name: "Test"
-                    },
-                    body: {
-                        type: "ClassBody",
-                        body: []
-                    }
-                }
-            ]
-        }
+        [{'class_name': 'Patient', 'attributes': ['issue'], 'methods': ['constructor'], 'edges': {'Object'}}]
         """
         try:
-            self.__parse_results = parse(input)
+            self.__parse_results = js_parse(input)
             self.__extract_js_data()
             return self.__results
         except TypeError as error:

@@ -1,3 +1,61 @@
 # Download these
 
 https://www2.graphviz.org/Packages/development/windows/10/msbuild/Release/x86/
+
+## Doctests
+
+>>> t = Read()
+>>> result = t.load_file("")
+>>> print(result)
+None
+
+>>> result = Config.get_default_filename()
+>>> print(result)
+filename
+
+>>> result = Config.get_default_filetype()
+>>> print(result)
+png
+
+>>> result = Config.get_default_storage_location()
+>>> print(result)
+tests
+
+>>> t = Converter()
+>>> results = t.convert("class Patient {\
+    constructor(issue) {\
+        this.issue = new Object();\
+            }}")
+>>> print(results)
+digraph class_diagram {
+    Patient [label="{Patient|issue|constructor()}" shape=record]
+    Patient -> Object
+}
+
+>>> t = DigraphConverter()
+>>> results = t.convert([{'class_name': 'Patient', 'attributes': ['issue'], 'methods': ['constructor'], 'edges': {'Object'}}])
+>>> print(results)
+digraph class_diagram {
+    Patient [label="{Patient|issue|constructor()}" shape=record]
+    Patient -> Object
+}
+
+>>> t = DigraphConverter()
+>>> t.render(Digraph(), "filename", "png")
+
+>>> t = JSParser()
+>>> results = t.parse("class Patient {\
+    constructor(issue) {\
+        this.issue = new Object();\
+            }}")
+>>> print(results)
+[{'class_name': 'Patient', 'attributes': ['issue'], 'methods': ['constructor'], 'edges': {'Object'}}]
+
+>>> t = ConsoleView()
+>>> t.show("test")
+test
+
+>>> t = ConsoleView()
+>>> t.get_input("test")
+test
+''

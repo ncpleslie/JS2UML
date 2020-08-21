@@ -25,6 +25,11 @@ class Read(AbstractRead):
 
         Returns:
             str: The file's contents
+
+        >>> t = Read()
+        >>> result = t.load_file("")
+        >>> print(result)
+        None
         """
         if path.isfile(input):
             return self.__read_file(input)

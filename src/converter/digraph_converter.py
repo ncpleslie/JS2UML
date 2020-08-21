@@ -9,7 +9,8 @@ from graphviz import Digraph
 
 
 class DigraphConverter:
-    """Will convert parsed JavaScript data, in a relevant file format (See JSParser). Converts the parsed JS into a Digraph and can render to select file formats
+    """
+    Will convert parsed JavaScript data, in a relevant file format (See JSParser). Converts the parsed JS into a Digraph and can render to select file formats
     """
 
     def __init__(self):
@@ -32,13 +33,21 @@ class DigraphConverter:
 
         Returns:
             Digraph: DOT graph of the parsed JS
+
+        >>> t = DigraphConverter()
+        >>> results = t.convert([{'class_name': 'Patient', 'attributes': ['issue'], 'methods': ['constructor'], 'edges': {'Object'}}])
+        >>> print(results)
+        digraph class_diagram {
+            Patient [label="{Patient|issue|constructor()}" shape=record]
+            Patient -> Object
+        }
         """
         for data in input:
             self.__set_node(data)
             self.__set_edge(data)
         return self.__dot_graph
 
-    def render(self, dot_graph: Digraph, filename="class", file_format="png"):
+    def render(self, dot_graph: Digraph, filename="class", file_format="png") -> None:
         """Will render the DOT graph in select image formats.
 
         Example:
@@ -46,11 +55,14 @@ class DigraphConverter:
 
         Raises:
             Exception: Exception is unable to find Dot graph file
+
+        >>> t = DigraphConverter()
+        >>> t.render(Digraph(), "filename", "png")
         """
         filename = filename.strip()
         file_format = file_format.strip().lower()
         if file_format not in self.__accepted_file_formats:
-            file_format = "png"
+            file_format = self.__accepted_file_formats[4]  # png
 
         if dot_graph:
             dot_graph.format = file_format

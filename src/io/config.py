@@ -6,6 +6,7 @@
 """
 
 from pickle import Pickler, dump, load
+from os import path
 
 
 class Config(Pickler):
@@ -13,7 +14,7 @@ class Config(Pickler):
     """
 
     # The preferred storage name
-    __pickle = "config.pkl"
+    __pickle = "config"
 
     # The preferred file type
     __accepted_file_formats = [
@@ -32,6 +33,10 @@ class Config(Pickler):
 
         Returns:
             str: default filename
+
+        >>> result = Config.get_default_filename()
+        >>> print(result)
+        filename
         """
         return cls.__open('default_filename')
 
@@ -41,6 +46,9 @@ class Config(Pickler):
 
         Returns:
             str: default filetype
+        >>> result = Config.get_default_filetype()
+        >>> print(result)
+        png
         """
         return cls.__open('default_filetype')
 
@@ -50,11 +58,15 @@ class Config(Pickler):
 
         Returns:
             str: default storage location
+
+        >>> result = Config.get_default_storage_location()
+        >>> print(result)
+        tests
         """
         return cls.__open('storage_location')
 
     @classmethod
-    def set_default_filename(cls, default_filename: str):
+    def set_default_filename(cls, default_filename: str) -> None:
         """Sets the default filename
 
         Args:
@@ -105,9 +117,9 @@ class Config(Pickler):
             [type]: the config
         """
         try:
-            with open(cls.__pickle, 'rb') as pickle:
-                new_data = load(pickle)
-                if new_data:
+            with open(path.join(path.realpath('.'), 'config', data_name), 'rb') as config:
+                new_data = load(config)
+                if new_data and new_data[data_name]:
                     return new_data[data_name]
         except FileNotFoundError as error:
             raise error
@@ -123,7 +135,9 @@ class Config(Pickler):
             error: IOerror, OSError if unable to save
         """
         try:
-            with open(cls.__pickle, 'wb') as pickle:
-                dump(data, pickle)
+            print("saving")
+            print(data)
+            with open(path.join(path.realpath('.'), 'config', list(data.keys())[0]), 'wb') as config:
+                dump(data, config)
         except (IOError, OSError) as error:
             raise error

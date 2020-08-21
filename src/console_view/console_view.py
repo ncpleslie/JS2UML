@@ -17,6 +17,9 @@ class ConsoleView(AbstractConsoleView):
 
         Args:
             msg (str): What will be shown in the console
+        >>> t = ConsoleView()
+        >>> t.show("test")
+        test
         """
         print(msg)
 
@@ -28,6 +31,10 @@ class ConsoleView(AbstractConsoleView):
 
         Returns:
             str: The users response
+        >>> t = ConsoleView()
+        >>> t.get_input("test")
+        test
+        ''
         """
         self.show(msg)
         return input()
