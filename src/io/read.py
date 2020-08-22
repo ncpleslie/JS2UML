@@ -8,6 +8,7 @@
 from os import listdir, path
 from errno import EACCES
 from src.io.abstract_read import AbstractRead
+from src.js2uml_constants import JS2UMLConstants
 
 
 class Read(AbstractRead):
@@ -15,7 +16,7 @@ class Read(AbstractRead):
     """
 
     def __init__(self):
-        self.__default_file_endings = ("js")
+        self.__default_file_endings = JS2UMLConstants.supported_files()
 
     def load_file(self, input: str) -> str:
         """Loads a file or directory to memory

@@ -7,6 +7,7 @@
 
 from pickle import Pickler, dump, load
 from os import path
+from src.js2uml_constants import JS2UMLConstants
 
 
 class Config(Pickler):
@@ -17,15 +18,7 @@ class Config(Pickler):
     __pickle = "config"
 
     # The preferred file type
-    __accepted_file_formats = [
-        "bmp",
-        "jpg",
-        "jpeg",
-        "pdf",
-        "png",
-        "svg",
-        "webp",
-    ]
+    __accepted_file_formats = JS2UMLConstants.accepted_file_formats()
 
     @classmethod
     def get_default_filename(cls) -> str:

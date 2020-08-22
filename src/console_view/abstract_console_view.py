@@ -13,7 +13,7 @@ class AbstractConsoleView(ABC):
     """
 
     @abstractmethod
-    def show(self, msg: str):
+    def show(self, msg: str) -> None:
         """Will display a string on the console screen
 
         Args:
@@ -22,7 +22,7 @@ class AbstractConsoleView(ABC):
         raise NotImplementedError("subclasses must override show()!")
 
     @abstractmethod
-    def get_input(self, msg: str):
+    def get_input(self, msg: str) -> str:
         """Will display a message and return the string response from the user
 
         Args:
@@ -32,3 +32,16 @@ class AbstractConsoleView(ABC):
             str: The users response
         """
         raise NotImplementedError("subclasses must override get_input()!")
+
+    @abstractmethod
+    def get_yes_no_input(self, msg=None) -> bool:
+        """Gets a yes/no response from a user
+
+        Args:
+            msg (str, optional): The message to be display for the user. Defaults to None.
+
+        Returns:
+            bool: The response from the user
+        """
+        raise NotImplementedError(
+            "subclasses must override get_yes_not_input()!")

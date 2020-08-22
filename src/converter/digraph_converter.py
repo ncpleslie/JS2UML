@@ -6,6 +6,7 @@
 """
 
 from graphviz import Digraph
+from src.js2uml_constants import JS2UMLConstants
 
 
 class DigraphConverter:
@@ -15,15 +16,7 @@ class DigraphConverter:
 
     def __init__(self):
         self.__dot_graph = Digraph("class_diagram")
-        self.__accepted_file_formats = [
-            "bmp",
-            "jpg",
-            "jpeg",
-            "pdf",
-            "png",
-            "svg",
-            "webp",
-        ]
+        self.__accepted_file_formats = JS2UMLConstants.accepted_file_formats()
 
     def convert(self, input: list) -> Digraph:
         """Will convert the parsed JS into a Digraph.

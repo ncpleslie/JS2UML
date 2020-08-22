@@ -68,3 +68,8 @@ test
 >>> t.get_input("test")
 test
 ''
+
+>>> t = ConsoleView()
+>>> result = t.get_yes_not_input("Want to continue")
+>>> print(result)
+True

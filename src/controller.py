@@ -36,12 +36,7 @@ class Controller:
         # Argparser for parsing arguments and flags from command line
         self.__parser = ArgumentParser()
         # JS Parser arguments
-        # File/directory location of the JS files
-        self.__parser.add_argument("-f")
-        # Output file/directory of the UML class diagram
-        self.__parser.add_argument("-o")
-        # Filetype (image) of the output UML class diagram
-        self.__parser.add_argument("-t")
+        self.__create_parser_args()
 
     def help(self) -> None:
         """Displays the help screen"""
@@ -71,6 +66,7 @@ class Controller:
             file_path = Config.get_default_storage_location()
             filename = Config.get_default_filename()
             file_format = Config.get_default_filetype()
+
         except FileNotFoundError as error:
             # This will mean that a config file hasn't been set up
             # This is an expected error if the user skips the
@@ -83,6 +79,14 @@ class Controller:
                     have permission to access it. Run setup command again to \
                     fix this issue")
             pass
+
+        # Delete stored input if use doesn't want to keep using it
+        if file_format and file_path and filename:
+            if not self._console_view.get_yes_no_input(
+                    f"Found default stored values.\nLocation: {file_path}\nSave as: {filename}\nOutput format: {file_format}\nContinue using these?"):
+                file_format = None
+                file_path = None
+                filename = None
 
         # Parse arguments from user, if the exist
         if args:
@@ -175,7 +179,14 @@ class Controller:
             self._console_view.show(
                 "The wrong file type may have been selected or you may not have permission to open that file. Please try again")
             self.setup()
-        print(Config.get_default_filename())
+
+    def __create_parser_args(self) -> None:
+        # File/directory location of the JS files
+        self.__parser.add_argument("-f")
+        # Output file/directory of the UML class diagram
+        self.__parser.add_argument("-o")
+        # Filetype (image) of the output UML class diagram
+        self.__parser.add_argument("-t")
 
     def __file_reader_error_handler(self, error):
         if error.errno == EACCES:

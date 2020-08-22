@@ -38,3 +38,29 @@ class ConsoleView(AbstractConsoleView):
         """
         self.show(msg)
         return input()
+
+    def get_yes_no_input(self, msg=None) -> bool:
+        """Get y/n response from user intput
+
+        Args:
+            msg ([str], optional): [The message to show the user]. Defaults to None.
+
+        Returns:
+            bool: [The yes/no response from the user
+
+        """
+        if msg:
+            self.show(msg)
+        valid = {"yes": True, "y": True, "no": False, "n": False}
+
+        default_output = ' [Y/n] '
+
+        self.show(default_output)
+
+        pick = input().lower()
+
+        while True:
+            if pick in valid:
+                return valid[pick]
+            else:
+                self.show(default_output)
