@@ -32,11 +32,8 @@ class Converter(AbstractConverter):
             constructor(issue) {\
                 this.issue = new Object();\
                     }}")
-        >>> print(results)
-        digraph class_diagram {
-            Patient [label="{Patient|issue|constructor()}" shape=record]
-            Patient -> Object
-        }
+        >>> print(type(results))
+        <class 'graphviz.dot.Digraph'>
         """
         try:
             parsed_js = JSParser().parse(input)

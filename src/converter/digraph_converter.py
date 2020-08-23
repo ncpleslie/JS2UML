@@ -29,16 +29,14 @@ class DigraphConverter:
 
         >>> t = DigraphConverter()
         >>> results = t.convert([{'class_name': 'Patient', 'attributes': ['issue'], 'methods': ['constructor'], 'edges': {'Object'}}])
-        >>> print(results)
-        digraph class_diagram {
-            Patient [label="{Patient|issue|constructor()}" shape=record]
-            Patient -> Object
-        }
+        >>> print(type(results))
+        <class 'graphviz.dot.Digraph'>
         """
-        for data in input:
-            self.__set_node(data)
-            self.__set_edge(data)
-        return self.__dot_graph
+        if input:
+            for data in input:
+                self.__set_node(data)
+                self.__set_edge(data)
+            return self.__dot_graph
 
     def render(self, dot_graph: Digraph, filename="class", file_format="png") -> None:
         """Will render the DOT graph in select image formats.

@@ -6,7 +6,7 @@
 """
 
 from esprima import parse as js_parse
-from .body_type_enum import BodyType
+from body_type_enum import BodyType
 
 
 class JSParser:
@@ -38,12 +38,13 @@ class JSParser:
         >>> print(results)
         [{'class_name': 'Patient', 'attributes': ['issue'], 'methods': ['constructor'], 'edges': {'Object'}}]
         """
-        try:
-            self.__parse_results = js_parse(input)
-            self.__extract_js_data()
-            return self.__results
-        except TypeError as error:
-            raise error
+        if input:
+            try:
+                self.__parse_results = js_parse(input)
+                self.__extract_js_data()
+                return self.__results
+            except TypeError as error:
+                raise error
 
     def __extract_js_data(self):
         """Loop through each class and extra all attributes from it

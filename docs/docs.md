@@ -32,22 +32,16 @@ tests
     constructor(issue) {\
         this.issue = new Object();\
             }}")
->>> print(results)
-digraph class_diagram {
-    Patient [label="{Patient|issue|constructor()}" shape=record]
-    Patient -> Object
-}
+>>> print(type(results))
+<class 'graphviz.dot.Digraph'>
 
 >>> t = Converter()
 >>> t.save(Digraph(), "filename", "png")
 
 >>> t = DigraphConverter()
 >>> results = t.convert([{'class_name': 'Patient', 'attributes': ['issue'], 'methods': ['constructor'], 'edges': {'Object'}}])
->>> print(results)
-digraph class_diagram {
-    Patient [label="{Patient|issue|constructor()}" shape=record]
-    Patient -> Object
-}
+>>> print(type(results))
+<class 'graphviz.dot.Digraph'>
 
 >>> t = DigraphConverter()
 >>> t.render(Digraph(), "filename", "png")
