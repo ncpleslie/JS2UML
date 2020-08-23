@@ -1,48 +1,60 @@
+"""==========================================
+; Title:  Tests for Converter
+; Author: Nick Leslie
+; Date:   22/08/2020
+=============================================
+"""
+
+
 from unittest import TestCase
 from graphviz import Digraph
-from src.converter.digraph_converter import DigraphConverter
+from os import path
+from src.converter.converter import Converter
+from src.errors.digraph_save_exception import DigraphSaveException
 
 
 class TestConverter(TestCase):
 
+    def test_save_expected_input(self):
+        # arrange
+        converter = Converter()
+        input = Digraph()
+        expected_filename = 'test_file'
+        expected_file_format = 'png'
+        # act
+        converter.save(input, expected_filename, expected_file_format)
+        is_there = path.isfile(
+            f"{expected_filename}.{expected_file_format}")
+        # assert
+        self.assertTrue(is_there)
+
+    def test_save_unexpected_input(self):
+        # arrange
+        converter = Converter()
+        input = object()
+        expected_filename = 'test_file'
+        expected_file_format = 'png'
+        expected_exception = DigraphSaveException
+        # act
+        # assert
+        with self.assertRaises(expected_exception):
+            converter.save(input, expected_filename, expected_file_format)
+
     def test_convert_expected_input(self):
         # arrange
-        digraph_parser = DigraphConverter()
-        parsed_string = [{'class_name': 'Patient', 'attributes': [
-            'issue'], 'methods': ['constructor'], 'edges': {'Object'}}]
+        converter = Converter()
+        js_string = 'class Patient {constructor(issue) {this.issue = new Object();} }'
         expected_result = Digraph()
         # act
-        result = digraph_parser.convert(parsed_string)
+        results = converter.convert(js_string)
         # assert
-        self.assertEqual(type(result), type(expected_result))
+        self.assertEqual(type(results), type(expected_result))
 
     def test_convert_unexpected_input(self):
         # arrange
-        digraph_parser = DigraphConverter()
-        parsed_string = ""
-        expected_result = Digraph()
-        # act
-        result = digraph_parser.convert(parsed_string)
-        # assert
-        self.assertNotEqual(type(result), type(expected_result))
+        converter = Converter()
+        incorrect_input = object()
+        expected_exception = TypeError
 
-    def test_parse_expected_input(self):
-        # arrange
-        js_parser = JSParser()
-        js_string = 'class Patient {constructor(issue) {this.issue = new Object();} }'
-        expected_result = [{'class_name': 'Patient', 'attributes': [
-            'issue'], 'methods': ['constructor'], 'edges': {'Object'}}]
-        # act
-        result = js_parser.parse(js_string)
-        # assert
-        self.assertEqual(result, expected_result)
-
-    def test_parse_unexpected_input(self):
-        # arrange
-        js_parser = JSParser()
-        js_string = ''
-        expected_result = []
-        # act
-        result = js_parser.parse(js_string)
-        # assert
-        self.assertNotEqual(result, expected_result)
+        with self.assertRaises(expected_exception):
+            converter.convert(incorrect_input)

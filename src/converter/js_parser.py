@@ -6,7 +6,7 @@
 """
 
 from esprima import parse as js_parse
-from body_type_enum import BodyType
+from .body_type_enum import BodyType
 
 
 class JSParser:

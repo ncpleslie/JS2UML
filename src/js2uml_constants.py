@@ -1,3 +1,11 @@
+"""==========================================
+; Title:  Constants
+; Author: Nick Leslie
+; Date:   22/08/2020
+=============================================
+"""
+
+
 class JS2UMLConstants:
     """For storage of the constants used throughout JS2UML
     """

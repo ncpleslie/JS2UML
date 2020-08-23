@@ -1,3 +1,10 @@
+"""==========================================
+; Title:  Tests for JS Parser
+; Author: Nick Leslie
+; Date:   22/08/2020
+=============================================
+"""
+
 from unittest import TestCase
 from src.converter.js_parser import JSParser
 

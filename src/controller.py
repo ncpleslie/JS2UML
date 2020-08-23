@@ -135,7 +135,6 @@ class Controller:
             self._converter.save(dot_graph, filename, file_format)
         except (DigraphSaveException, TypeError, UnboundLocalError):
             self.__save_error_handler()
-        self.exit()
 
     def setup(self, args=None) -> None:
         """Guides the user through the set up process. "\

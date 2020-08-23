@@ -36,6 +36,8 @@ class Read(AbstractRead):
             return self.__read_file(input)
         elif path.isdir(input):
             return self.__read_directory(input)
+        else:
+            raise FileNotFoundError
 
     def __read_directory(self, directory: str) -> str:
         """Read the contents of a file directory

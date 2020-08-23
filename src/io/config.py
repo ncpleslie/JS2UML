@@ -105,13 +105,13 @@ class Config(Pickler):
         """Opens the pickle config
 
         Args:
-            data_name ([type]): name of pickle
+            data_name ([string]): name of pickle
 
         Raises:
             error: if file not found
 
         Returns:
-            [type]: the config
+            [string]: the config
         """
         try:
             with open(path.join(path.realpath('.'), 'config', data_name), 'rb') as config:
