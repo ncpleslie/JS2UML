@@ -38,7 +38,8 @@ class AbstractConsoleView(ABC):
         """Gets a yes/no response from a user
 
         Args:
-            msg (str, optional): The message to be display for the user. Defaults to None.
+            msg (str, optional): The message to be display for the user.\
+                 Defaults to None.
 
         Returns:
             bool: The response from the user

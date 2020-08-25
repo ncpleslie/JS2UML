@@ -43,7 +43,8 @@ class TestConverter(TestCase):
     def test_convert_expected_input(self):
         # arrange
         converter = Converter()
-        js_string = 'class Patient {constructor(issue) {this.issue = new Object();} }'
+        js_string = 'class Patient {constructor(issue) \
+            {this.issue = new Object();} }'
         expected_result = Digraph()
         # act
         results = converter.convert(js_string)

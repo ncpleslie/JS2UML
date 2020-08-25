@@ -41,7 +41,8 @@ class Converter(AbstractConverter):
         except TypeError as error:
             raise error
 
-    def save(self, dot_graph: Digraph, filename: str, file_format: str) -> None:
+    def save(self, dot_graph: Digraph, filename:
+             str, file_format: str) -> None:
         """Renders the DOT graph to select image formats
 
         Example:

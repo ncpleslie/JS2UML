@@ -11,7 +11,9 @@ from src.js2uml_constants import JS2UMLConstants
 
 class DigraphConverter:
     """
-    Will convert parsed JavaScript data, in a relevant file format (See JSParser). Converts the parsed JS into a Digraph and can render to select file formats
+    Will convert parsed JavaScript data, in a relevant file format\
+         (See JSParser). Converts the parsed JS into a Digraph \
+              and can render to select file formats
     """
 
     def __init__(self):
@@ -28,7 +30,9 @@ class DigraphConverter:
             Digraph: DOT graph of the parsed JS
 
         >>> t = DigraphConverter()
-        >>> results = t.convert([{'class_name': 'Patient', 'attributes': ['issue'], 'methods': ['constructor'], 'edges': {'Object'}}])
+        >>> results = t.convert([{'class_name': 'Patient', \
+            'attributes': ['issue'], 'methods': ['constructor'], \
+                'edges': {'Object'}}])
         >>> print(type(results))
         <class 'graphviz.dot.Digraph'>
         """
@@ -38,7 +42,8 @@ class DigraphConverter:
                 self.__set_edge(data)
             return self.__dot_graph
 
-    def render(self, dot_graph: Digraph, filename="class", file_format="png") -> None:
+    def render(self, dot_graph: Digraph, filename="class",
+               file_format="png") -> None:
         """Will render the DOT graph in select image formats.
 
         Example:
@@ -81,7 +86,8 @@ class DigraphConverter:
             self.__dot_graph.edge(data["class_name"], edge)
 
     def __set_node(self, data: dict):
-        """Sets the node. Nodes are the classes. Will contain the attributes, methods and name
+        """Sets the node. Nodes are the classes. Will \
+            contain the attributes, methods and name
 
         Args:
             data (dict): The parsed JS data

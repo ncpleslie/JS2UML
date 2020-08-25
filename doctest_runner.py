@@ -10,9 +10,9 @@ from src.console_view import console_view
 tests = [js_parser, digraph_converter, converter, read, config, console_view]
 print('Running doctests')
 for aTest in tests:
-    print("========================================================================================================================================")
+    print("=========================================================")
     print(f'Running test {aTest}')
     doctest.testmod(aTest)
-    print("========================================================================================================================================")
+    print("=========================================================")
 
 print('Doctests finished')
