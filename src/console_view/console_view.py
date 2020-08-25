@@ -43,7 +43,8 @@ class ConsoleView(AbstractConsoleView):
         """Get y/n response from user intput
 
         Args:
-            msg ([str], optional): [The message to show the user]. Defaults to None.
+            msg ([str], optional): [The message to show the user].\
+                 Defaults to None.
 
         Returns:
             bool: [The yes/no response from the user

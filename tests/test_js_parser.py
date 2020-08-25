@@ -14,7 +14,8 @@ class TestJSParser(TestCase):
     def test_parse_expected_input(self):
         # arrange
         js_parser = JSParser()
-        js_string = 'class Patient {constructor(issue) {this.issue = new Object();} }'
+        js_string = 'class Patient {constructor(issue) {this.issue = '\
+            'new Object();} }'
         expected_result = [{'class_name': 'Patient', 'attributes': [
             'issue'], 'methods': ['constructor'], 'edges': {'Object'}}]
         # act

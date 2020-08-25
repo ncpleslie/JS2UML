@@ -10,8 +10,9 @@ from .body_type_enum import BodyType
 
 
 class JSParser:
-    """The JavaScript Parser. Will convert the file contents of JavaScript class into class names, attributes, methods and relationships
-
+    """The JavaScript Parser. Will convert the file contents of \
+        JavaScript class into class names, \
+        attributes, methods and relationships
     """
 
     def __init__(self):
@@ -19,7 +20,8 @@ class JSParser:
         self.__results = []
 
     def parse(self, input: str) -> list:
-        """Parse a JavaScript file's contents and extract the class names, attributes, methods and relationships
+        """Parse a JavaScript file's contents and extract
+        the class names, attributes, methods and relationships
 
         Args:
             input (str): The JavaScript file's contents
@@ -36,7 +38,8 @@ class JSParser:
                 this.issue = new Object();\
                     }}")
         >>> print(results)
-        [{'class_name': 'Patient', 'attributes': ['issue'], 'methods': ['constructor'], 'edges': {'Object'}}]
+        [{'class_name': 'Patient', 'attributes': ['issue'], \
+            'methods': ['constructor'], 'edges': {'Object'}}]
         """
         if input:
             try:
@@ -75,8 +78,8 @@ class JSParser:
         attributes = []
         for body in data.body.body:
             if (
-                body.type == BodyType.METHOD.value
-                and body.key.name == BodyType.CONSTRUCTOR.value
+                body.type == BodyType.METHOD.value and
+                    body.key.name == BodyType.CONSTRUCTOR.value
             ):
                 for aAttribute in body.value.body.body:
                     attributes.append(aAttribute.expression.left.property.name)
@@ -102,7 +105,8 @@ class JSParser:
         Returns:
             list: List of strings containing extracted method names
         """
-        return [body.key.name for body in data if body.type == BodyType.METHOD.value]
+        return [body.key.name for body in data if
+                body.type == BodyType.METHOD.value]
 
     def __get_relationship(self, data: dict) -> set:
         """Extracts the relationships with other classes
@@ -117,10 +121,15 @@ class JSParser:
         for body in data:
             # get relationships in the constructor
             relationship.update(
-                deep_body.expression.right.callee.name for deep_body in body.value.body.body if deep_body.expression and deep_body.expression.right and deep_body.expression.right.type == BodyType.NEW.value)
+                deep_body.expression.right.callee.name for deep_body in
+                body.value.body.body if deep_body.expression and
+                deep_body.expression.right and
+                deep_body.expression.right.type ==
+                BodyType.NEW.value)
 
             # Get the relationships from methods
-            if (body.type == BodyType.METHOD.value and body.key.name != BodyType.CONSTRUCTOR.value):
+            if (body.type == BodyType.METHOD.value and
+                    body.key.name != BodyType.CONSTRUCTOR.value):
                 for aMethod in body.value.body.body:
                     if aMethod.declarations:
                         for aDeclaration in aMethod.declarations:

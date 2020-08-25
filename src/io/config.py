@@ -82,7 +82,8 @@ class Config(Pickler):
             IOError: if wrong file type
         >>> Config.set_default_filetype("png")
         """
-        if default_filetype and default_filetype in cls.__accepted_file_formats:
+        if default_filetype and default_filetype in \
+                cls.__accepted_file_formats:
             filetype_dict = {'default_filetype': default_filetype}
             cls.__save(filetype_dict)
         else:
@@ -114,7 +115,8 @@ class Config(Pickler):
             [string]: the config
         """
         try:
-            with open(path.join(path.realpath('.'), 'config', data_name), 'rb') as config:
+            with open(path.join(path.realpath('.'),
+                                'config', data_name), 'rb') as config:
                 new_data = load(config)
                 if new_data and new_data[data_name]:
                     return new_data[data_name]
@@ -132,7 +134,8 @@ class Config(Pickler):
             error: IOerror, OSError if unable to save
         """
         try:
-            with open(path.join(path.realpath('.'), 'config', list(data.keys())[0]), 'wb') as config:
+            with open(path.join(path.realpath('.'), 'config',
+                                list(data.keys())[0]), 'wb') as config:
                 dump(data, config)
         except (IOError, OSError) as error:
             raise error

@@ -18,8 +18,10 @@ class Controller:
     The main controller for the JS to UML parser
 
         Args:
-            console_view (AbstractConsoleView): A view class for the console screen. Used to grab user input and display messages
-            converter (AbstractConverter): The JS parser. Used to convert JS to AST, Digraph and output an image file
+            console_view (AbstractConsoleView): A view class for the
+            console screen. Used to grab user input and display messages
+            converter (AbstractConverter): The JS parser.
+            Used to convert JS to AST, Digraph and output an image file
 
         Example:
             `Controller(View(), Converter()).parse()`
@@ -41,7 +43,9 @@ class Controller:
     def help(self) -> None:
         """Displays the help screen"""
         self._console_view.show(
-            "setup     Set default filenames, directories and filetypes\nparse     Convert a JavaScript file to a UML class diagram\nexit      Exits the program")
+            "setup     Set default filenames, directories and filetypes\n"
+            "parse     Convert a JavaScript file to a UML class diagram\n"
+            "exit      Exits the program")
 
     def exit(self) -> None:
         """Exits the programs"""
@@ -83,7 +87,9 @@ class Controller:
         # Delete stored input if use doesn't want to keep using it
         if file_format and file_path and filename:
             if not self._console_view.get_yes_no_input(
-                    f"Found default stored values.\nLocation: {file_path}\nSave as: {filename}\nOutput format: {file_format}\nContinue using these?"):
+                    f"Found default stored values.\nLocation:"
+                    "{file_path}\nSave as: {filename}\nOutput format:"
+                    "{file_format}\nContinue using these?"):
                 file_format = None
                 file_path = None
                 filename = None
@@ -127,7 +133,8 @@ class Controller:
             # ESPrima will throw a generic error called "Error"
             if type(error).__name__ == "Error":
                 self._console_view.show(
-                    "Was that a valid JS file?. If it was TS, we can't parse that yet. Let's try again")
+                    "Was that a valid JS file?. If it was TS,"
+                    "we can't parse that yet. Let's try again")
                 self.parse()
 
         # Save dot graph to set file format
@@ -176,7 +183,9 @@ class Controller:
             Config.set_default_filetype(file_format)
         except (IOError, OSError):
             self._console_view.show(
-                "The wrong file type may have been selected or you may not have permission to open that file. Please try again")
+                "The wrong file type may have been selected or"
+                "you may not have permission to open that file."
+                "Please try again")
             self.setup()
 
     def __create_parser_args(self) -> None:
