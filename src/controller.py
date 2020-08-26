@@ -88,8 +88,8 @@ class Controller:
         if file_format and file_path and filename:
             if not self._console_view.get_yes_no_input(
                     f"Found default stored values.\nLocation:"
-                    "{file_path}\nSave as: {filename}\nOutput format:"
-                    "{file_format}\nContinue using these?"):
+                    f"{file_path}\nSave as: {filename}\nOutput format:"
+                    f"{file_format}\nContinue using these?"):
                 file_format = None
                 file_path = None
                 filename = None
@@ -142,6 +142,7 @@ class Controller:
             self._converter.save(dot_graph, filename, file_format)
         except (DigraphSaveException, TypeError, UnboundLocalError):
             self.__save_error_handler()
+        self._console_view.show('JS2UML Conversion Complete')
 
     def setup(self, args=None) -> None:
         """Guides the user through the set up process. "\
@@ -187,6 +188,7 @@ class Controller:
                 "you may not have permission to open that file."
                 "Please try again")
             self.setup()
+        self._console_view.show('Setup Complete')
 
     def __create_parser_args(self) -> None:
         # File/directory location of the JS files
@@ -212,7 +214,8 @@ class Controller:
     def __parse_args(self, args: str) -> Namespace:
         """Parses arguments passed from the command-line"""
         if args:
-            return self.__parser.parse_args(args.split())
+            args, _ = self.__parser.parse_known_args(args.split())
+            return args
 
     def __save_error_handler(self) -> None:
         self._console_view.show(
