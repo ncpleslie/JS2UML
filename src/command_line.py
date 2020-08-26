@@ -30,10 +30,8 @@ class CommandLine(Cmd):
 
     def do_setup(self, arg):
         "Setup allows you initialise the program and set the configurations "\
-            "you want. These include default output directory, "\
-            "default output file type, default output name."\
-            "Setup will even allow you to set "\
-            "a MongoDB as your prefered backup location\n\n"\
+            "you want. These include default input directory, "\
+            "default output file type, default output name.\n\n"\
             "Expected use: \n"\
             "`setup -f <default filename or directory> -o <default output>"\
             "-t <default filetype>` "\
