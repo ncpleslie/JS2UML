@@ -28,9 +28,7 @@ class Read(AbstractRead):
             str: The file's contents
 
         >>> t = Read()
-        >>> result = t.load_file("")
-        >>> print(result)
-        None
+        >>> result = t.load_file("test_js/basic/basic.js")
         """
         if path.isfile(input):
             return self.__read_file(input)

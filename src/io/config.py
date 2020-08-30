@@ -54,7 +54,7 @@ class Config(Pickler):
 
         >>> result = Config.get_default_storage_location()
         >>> print(result)
-        tests
+        test_js
         """
         return cls.__open('storage_location')
 
@@ -95,7 +95,7 @@ class Config(Pickler):
 
         Args:
             storage_location (str): default storage location
-        >>> Config.set_default_storage_location("tests")
+        >>> Config.set_default_storage_location("test_js")
         """
         if storage_location:
             storage_dict = {'storage_location': storage_location}
