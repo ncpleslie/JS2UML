@@ -38,8 +38,7 @@ class JSParser:
                 this.issue = new Object();\
                     }}")
         >>> print(results)
-        [{'class_name': 'Patient', 'attributes': ['issue'], \
-            'methods': ['constructor'], 'edges': {'Object'}}]
+        [{'class_name': 'Patient', 'attributes': ['issue'], 'methods': ['constructor'], 'edges': {'Object'}}]
         """
         if input:
             try:

@@ -14,7 +14,7 @@ class TestRead(TestCase):
     def test_load_file_valid_js_file(self):
         # arrange
         read = Read()
-        filename = "test_js/basic.js"
+        filename = "test_js/basic/basic.js"
         expect_result = "class Patient {\n"\
             "     constructor(issue) {\n"\
             "         this.issue = new Object();\n"\
