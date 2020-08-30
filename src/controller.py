@@ -72,22 +72,18 @@ class Controller:
             file_format = Config.get_default_filetype()
 
         except FileNotFoundError as error:
-            # This will mean that a config file hasn't been set up
-            # This is an expected error if the user skips the
-            # setup processes.
-            # Passing this error is the expected step to take
-            pass
+            self._console_view.show(
+                "No config set. Use `setup` to initialize the default configurations.")
         except (IOError, OSError):
             self._console_view.show(
                 "Unable to load config file. It may have become corrupt or we don't \
                     have permission to access it. Run setup command again to \
                     fix this issue")
-            pass
 
         # Delete stored input if use doesn't want to keep using it
         if file_format and file_path and filename:
             if not self._console_view.get_yes_no_input(
-                    f"Found default stored values.\nLocation:"
+                    f"Found default stored values.\nLocation: "
                     f"{file_path}\nSave as: {filename}\nOutput format:"
                     f"{file_format}\nContinue using these?"):
                 file_format = None
