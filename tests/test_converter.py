@@ -9,8 +9,8 @@
 from unittest import TestCase
 from graphviz import Digraph
 from os import path
-from js2uml.converter.converter import Converter
-from js2uml.errors.digraph_save_exception import DigraphSaveException
+from src.converter.converter import Converter
+from src.errors.digraph_save_exception import DigraphSaveException
 
 
 class TestConverter(TestCase):

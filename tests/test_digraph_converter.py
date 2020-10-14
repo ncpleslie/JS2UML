@@ -8,7 +8,7 @@
 from unittest import TestCase
 from graphviz import Digraph
 from os import path
-from js2uml.converter.digraph_converter import DigraphConverter
+from src.converter.digraph_converter import DigraphConverter
 
 
 class TestDigraphConverter(TestCase):

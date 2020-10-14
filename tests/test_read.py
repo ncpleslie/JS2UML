@@ -6,7 +6,7 @@
 """
 
 from unittest import TestCase
-from js2uml.io.read import Read
+from src.input_output.read import Read
 
 
 class TestRead(TestCase):

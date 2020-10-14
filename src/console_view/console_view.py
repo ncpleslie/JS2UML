@@ -5,7 +5,7 @@
 =============================================
 """
 
-from js2uml.console_view.abstract_console_view import AbstractConsoleView
+from src.console_view.abstract_console_view import AbstractConsoleView
 
 
 class ConsoleView(AbstractConsoleView):

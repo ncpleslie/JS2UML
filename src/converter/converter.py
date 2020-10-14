@@ -5,10 +5,10 @@
 =============================================
 """
 from graphviz import Digraph
-from js2uml.converter.abstract_converter import AbstractConverter
-from js2uml.converter.js_parser import JSParser
-from js2uml.converter.digraph_converter import DigraphConverter
-from js2uml.errors.digraph_save_exception import DigraphSaveException
+from src.converter.abstract_converter import AbstractConverter
+from src.converter.js_parser import JSParser
+from src.converter.digraph_converter import DigraphConverter
+from src.errors.digraph_save_exception import DigraphSaveException
 
 
 class Converter(AbstractConverter):

@@ -7,7 +7,7 @@
 
 from pickle import Pickler, dump, load
 from os import path
-from js2uml.js2uml_constants import JS2UMLConstants
+from src.js2uml_constants import JS2UMLConstants
 
 
 class Config(Pickler):

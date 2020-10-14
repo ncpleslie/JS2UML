@@ -6,11 +6,11 @@
 """
 from argparse import ArgumentParser, Namespace
 from errno import EACCES, ENOENT
-from js2uml.io.read import Read
-from js2uml.console_view.abstract_console_view import AbstractConsoleView
-from js2uml.converter.abstract_converter import AbstractConverter
-from js2uml.errors.digraph_save_exception import DigraphSaveException
-from js2uml.io.config import Config
+from src.io.read import Read
+from src.console_view.abstract_console_view import AbstractConsoleView
+from src.converter.abstract_converter import AbstractConverter
+from src.errors.digraph_save_exception import DigraphSaveException
+from src.io.config import Config
 
 
 class Controller:

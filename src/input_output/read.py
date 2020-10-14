@@ -7,8 +7,8 @@
 
 from os import listdir, path
 from errno import EACCES
-from js2uml.io.abstract_read import AbstractRead
-from js2uml.js2uml_constants import JS2UMLConstants
+from .abstract_read import AbstractRead
+from src.js2uml_constants import JS2UMLConstants
 
 
 class Read(AbstractRead):

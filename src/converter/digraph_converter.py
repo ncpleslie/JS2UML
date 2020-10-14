@@ -6,7 +6,7 @@
 """
 
 from graphviz import Digraph
-from js2uml.js2uml_constants import JS2UMLConstants
+from src.js2uml_constants import JS2UMLConstants
 
 
 class DigraphConverter:
