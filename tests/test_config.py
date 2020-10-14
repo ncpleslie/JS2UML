@@ -6,7 +6,7 @@
 """
 
 from unittest import TestCase
-from src.io.config import Config
+from js2uml.io.config import Config
 
 
 class TestConfig(TestCase):

@@ -6,7 +6,7 @@
 """
 
 from unittest import TestCase
-from src.converter.js_parser import JSParser
+from js2uml.converter.js_parser import JSParser
 
 
 class TestJSParser(TestCase):

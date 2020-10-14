@@ -1,11 +1,11 @@
 import doctest
 import unittest
-from src.converter import js_parser
-from src.converter import digraph_converter
-from src.converter import converter
-from src.io import read
-from src.io import config
-from src.console_view import console_view
+from js2uml.converter import js_parser
+from js2uml.converter import digraph_converter
+from js2uml.converter import converter
+from js2uml.io import read
+from js2uml.io import config
+from js2uml.console_view import console_view
 
 tests = [js_parser, digraph_converter, converter, read, config, console_view]
 print('Running doctests')
