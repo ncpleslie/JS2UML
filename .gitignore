@@ -1,7 +1,10 @@
 __pycache__/
 .vscode/
 .idea
-pytest_report.html
 config/
 .noseids
 .pytest_cache
+test_file.png
+test_file
+htmlcov/
+.coverage

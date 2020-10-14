@@ -1,7 +1,7 @@
-from js2uml.command_line import CommandLine
-from js2uml.controller import Controller
-from js2uml.console_view.console_view import ConsoleView
-from js2uml.converter.converter import Converter
+from src.command_line import CommandLine
+from src.controller import Controller
+from src.console_view.console_view import ConsoleView
+from src.converter.converter import Converter
 
 
 if __name__ == "__main__":

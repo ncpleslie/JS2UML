@@ -5,7 +5,7 @@
 =============================================
 """
 
-from graphviz import Digraph
+from graphviz import Digraph, Source
 from src.js2uml_constants import JS2UMLConstants
 
 
@@ -60,16 +60,12 @@ class DigraphConverter:
         if file_format not in self.__accepted_file_formats:
             file_format = self.__accepted_file_formats[4]  # png
 
-        if dot_graph:
-            dot_graph.format = file_format
-            dot_graph.render(filename)
+        source = Source(dot_graph.source,
+                        filename=filename, format=file_format)
+        source.view()
+        self.__delete()
 
-        elif self.__dot_graph:
-            self.__dot_graph.format = file_format
-            self.__dot_graph.render(filename)
-            self.__delete()
-        else:
-            raise Exception("Undefined dot graph")
+        return
 
     def __delete(self):
         """Deletes the current stored DOT graph

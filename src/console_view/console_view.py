@@ -60,8 +60,7 @@ class ConsoleView(AbstractConsoleView):
 
         pick = input().lower()
 
-        while True:
-            if pick in valid:
-                return valid[pick]
-            else:
-                self.show(default_output)
+        if pick in valid:
+            return valid[pick]
+        else:
+            self.get_yes_no_input(msg)

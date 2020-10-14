@@ -10,6 +10,24 @@ This requires GraphViz installed: [Download here](https://graphviz.org/download/
 
 GraphViz will need to set as an environment variable in order to work
 
+## Run
+
+To run unit tests
+
+`python test_runner.py`
+
+To run doctests
+
+`python doctest_runner.py`
+
+To run test coverage
+
+```
+coverage run --branch --source=src test_runner.py
+coverage report -m
+coverage html
+```
+
 
 # Contributors
 

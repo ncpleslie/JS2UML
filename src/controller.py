@@ -6,11 +6,11 @@
 """
 from argparse import ArgumentParser, Namespace
 from errno import EACCES, ENOENT
-from src.io.read import Read
+from src.input_output.read import Read
 from src.console_view.abstract_console_view import AbstractConsoleView
 from src.converter.abstract_converter import AbstractConverter
 from src.errors.digraph_save_exception import DigraphSaveException
-from src.io.config import Config
+from src.input_output.config import Config
 
 
 class Controller:
@@ -136,9 +136,12 @@ class Controller:
         # Save dot graph to set file format
         try:
             self._converter.save(dot_graph, filename, file_format)
-        except (DigraphSaveException, TypeError, UnboundLocalError):
+        except (DigraphSaveException, TypeError, UnboundLocalError) as error:
+            print(error)
             self.__save_error_handler()
+
         self._console_view.show('JS2UML Conversion Complete')
+        return
 
     def setup(self, args=None) -> None:
         """Guides the user through the set up process. "\
