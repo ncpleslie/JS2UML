@@ -114,14 +114,15 @@ class Config(Pickler):
         Returns:
             [string]: the config
         """
+        results = None
         try:
             with open(path.join(path.realpath('.'),
                                 'config', data_name), 'rb') as config:
                 new_data = load(config)
-                if new_data and new_data[data_name]:
-                    return new_data[data_name]
+                results = new_data[data_name]
         except FileNotFoundError as error:
             raise error
+        return results
 
     @classmethod
     def __save(cls, data) -> None:
@@ -137,5 +138,5 @@ class Config(Pickler):
             with open(path.join(path.realpath('.'), 'config',
                                 list(data.keys())[0]), 'wb') as config:
                 dump(data, config)
-        except (IOError, OSError) as error:
+        except (IOError, OSError, AttributeError) as error:
             raise error

@@ -8,3 +8,4 @@ test_file.png
 test_file
 htmlcov/
 .coverage
+nosetests.xml

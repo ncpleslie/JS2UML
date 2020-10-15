@@ -135,8 +135,8 @@ class JSParser:
                             if aDeclaration.init.type == BodyType.NEW.value:
                                 relationship.add(aDeclaration.init.callee.name)
 
-                if aMethod.expression and aMethod.expression.arguments:
-                    for aArgument in aMethod.expression.arguments:
-                        if aArgument.type == BodyType.NEW.value:
-                            relationship.add(aArgument.callee.name)
+                    if aMethod.expression and aMethod.expression.arguments:
+                        for aArgument in aMethod.expression.arguments:
+                            if aArgument.type == BodyType.NEW.value:
+                                relationship.add(aArgument.callee.name)
         return relationship

@@ -15,9 +15,54 @@ class TestJSParser(TestCase):
         # arrange
         js_parser = JSParser()
         js_string = 'class Patient {constructor(issue) {this.issue = '\
-            'new Object();} }'
+            'new Object();} aMethod(){console.log(""); const x = new String();}}'
         expected_result = [{'class_name': 'Patient', 'attributes': [
-            'issue'], 'methods': ['constructor'], 'edges': {'Object'}}]
+            'issue'], 'methods': ['constructor', 'aMethod'], 'edges': {'Object', 'String'}}]
+        # act
+        result = js_parser.parse(js_string)
+        # assert
+        self.assertEqual(result, expected_result)
+
+    def test_parse_partial_expected_input(self):
+        # arrange
+        js_parser = JSParser()
+        js_string = 'class Patient {constructor(issue) {this.issue = issue} aMethod(){console.log("");}}'
+        expected_result = [{'class_name': 'Patient', 'attributes': ['issue'],
+                            'methods': ['constructor', 'aMethod'], 'edges': set()}]
+        # act
+        result = js_parser.parse(js_string)
+        # assert
+        self.assertEqual(result, expected_result)
+
+    def test_parse_partial_new_object_in_expression(self):
+        # arrange
+        js_parser = JSParser()
+        js_string = 'class Patient {constructor(issue) {this.issue = '\
+            'new Object();} aMethod(){console.log(new String());}}'
+        expected_result = [{'class_name': 'Patient', 'attributes': [
+            'issue'], 'methods': ['constructor', 'aMethod'], 'edges': {'Object', 'String'}}]
+        # act
+        result = js_parser.parse(js_string)
+        # assert
+        self.assertEqual(result, expected_result)
+
+    def test_parse_empty_class(self):
+        # arrange
+        js_parser = JSParser()
+        js_string = 'class Patient {}'
+        expected_result = [{'class_name': 'Patient', 'attributes': [],
+                            'methods': [], 'edges': set()}]
+        # act
+        result = js_parser.parse(js_string)
+        # assert
+        self.assertEqual(result, expected_result)
+
+    def test_parse_solo_method(self):
+        # arrange
+        js_parser = JSParser()
+        js_string = 'class Patient {aMethod(){let y = 1}}'
+        expected_result = [{'class_name': 'Patient', 'attributes': [],
+                            'methods': ['aMethod'], 'edges': set()}]
         # act
         result = js_parser.parse(js_string)
         # assert

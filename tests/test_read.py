@@ -70,3 +70,10 @@ class TestRead(TestCase):
         # assert
         with self.assertRaises(expected_exception):
             read.load_file(file_dir)
+
+    def test__read_file_invalid_filename(self):
+        invalid_filename = "abcabc"
+        read = Read()
+        expected_exception = IOError
+        with self.assertRaises(expected_exception):
+            read._Read__read_file(invalid_filename)

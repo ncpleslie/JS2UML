@@ -65,38 +65,39 @@ class Controller:
         file_format = None
         parsed_args = None
 
-        # Get stored config
-        try:
-            file_path = Config.get_default_storage_location()
-            filename = Config.get_default_filename()
-            file_format = Config.get_default_filetype()
+        if not args:
+            # Get stored config
+            try:
+                file_path = Config.get_default_storage_location()
+                filename = Config.get_default_filename()
+                file_format = Config.get_default_filetype()
 
-        except FileNotFoundError as error:
-            self._console_view.show(
-                "No config set. Use `setup` to initialize the default configurations.")
-        except (IOError, OSError):
-            self._console_view.show(
-                "Unable to load config file. It may have become corrupt or we don't \
-                    have permission to access it. Run setup command again to \
-                    fix this issue")
+            except FileNotFoundError as error:
+                self._console_view.show(
+                    "No config set. Use `setup` to initialize the default configurations.")
+            except (IOError, OSError):
+                self._console_view.show(
+                    "Unable to load config file. It may have become corrupt or we don't \
+                        have permission to access it. Run setup command again to \
+                        fix this issue")
 
-        # Delete stored input if use doesn't want to keep using it
-        if file_format and file_path and filename:
-            if not self._console_view.get_yes_no_input(
-                    f"Found default stored values.\nLocation: "
-                    f"{file_path}\nSave as: {filename}\nOutput format:"
-                    f"{file_format}\nContinue using these?"):
-                file_format = None
-                file_path = None
-                filename = None
+            # Delete stored input if use doesn't want to keep using it
+            if file_format and file_path and filename:
+                if not self._console_view.get_yes_no_input(
+                        f"Found default stored values.\nLocation: "
+                        f"{file_path}\nSave as: {filename}\nOutput format:"
+                        f"{file_format}\nContinue using these?"):
+                    file_format = None
+                    file_path = None
+                    filename = None
 
         # Parse arguments from user, if the exist
-        if args:
+        else:
             parsed_args = self.__parse_args(args)
-        if parsed_args:
-            file_path = parsed_args.f
-            filename = parsed_args.o
-            file_format = parsed_args.t
+            if parsed_args:
+                file_path = parsed_args.f
+                filename = parsed_args.o
+                file_format = parsed_args.t
 
         # Ask user where the file/directory is
         if not file_path:
