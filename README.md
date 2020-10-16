@@ -32,6 +32,3 @@ coverage html
 # Contributors
 
 Nicholas Leslie: [ncpleslie](https://github.com/ncpleslie)
-
-
-Jinxian Zhang: [Robben-Zhang](https://github.com/Robben-Zhang)

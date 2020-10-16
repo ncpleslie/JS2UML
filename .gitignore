@@ -1,7 +1,6 @@
 __pycache__/
 .vscode/
 .idea
-config/
 .noseids
 .pytest_cache
 test_file.png
@@ -9,3 +8,6 @@ test_file
 htmlcov/
 .coverage
 nosetests.xml
+config/storage_location
+config/default_filetype
+config/default_filename

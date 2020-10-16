@@ -11,6 +11,7 @@ from src.console_view.abstract_console_view import AbstractConsoleView
 class ConsoleView(AbstractConsoleView):
     """For display and extract user input on the console
     """
+    count = 0
 
     def show(self, msg: str) -> None:
         """Will display a string on the console screen
@@ -50,6 +51,10 @@ class ConsoleView(AbstractConsoleView):
             bool: [The yes/no response from the user
 
         """
+        if self.count == 10:
+            return False
+        self.count += 1
+
         if msg:
             self.show(msg)
         valid = {"yes": True, "y": True, "no": False, "n": False}

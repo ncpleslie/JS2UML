@@ -184,8 +184,8 @@ class Controller:
             Config.set_default_filetype(file_format)
         except (IOError, OSError):
             self._console_view.show(
-                "The wrong file type may have been selected or"
-                "you may not have permission to open that file."
+                "The wrong file type may have been selected or "
+                "you may not have permission to open that file. "
                 "Please try again")
             self.setup()
         self._console_view.show('Setup Complete')

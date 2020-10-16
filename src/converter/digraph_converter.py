@@ -62,7 +62,7 @@ class DigraphConverter:
 
         source = Source(dot_graph.source,
                         filename=filename, format=file_format)
-        source.view()
+        # source.view()
         self.__delete()
 
         return
