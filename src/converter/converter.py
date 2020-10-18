@@ -38,7 +38,8 @@ class Converter(AbstractConverter):
         try:
             parsed_js = JSParser().parse(input)
             return DigraphConverter().convert(parsed_js)
-        except TypeError as error:
+        except Exception as error:
+            # ESPrima will throw a generic error
             raise error
 
     def save(self, dot_graph: Digraph, filename:
@@ -61,5 +62,5 @@ class Converter(AbstractConverter):
         """
         try:
             DigraphConverter().render(dot_graph, filename)
-        except Exception as error:
+        except (Exception, TypeError) as error:
             raise DigraphSaveException("Failed to save digraph")

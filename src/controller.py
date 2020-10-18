@@ -10,6 +10,7 @@ from src.input_output.read import Read
 from src.console_view.abstract_console_view import AbstractConsoleView
 from src.converter.abstract_converter import AbstractConverter
 from src.errors.digraph_save_exception import DigraphSaveException
+from src.errors.js_parse_exception import JSParseException
 from src.input_output.config import Config
 
 
@@ -75,11 +76,6 @@ class Controller:
             except FileNotFoundError as error:
                 self._console_view.show(
                     "No config set. Use `setup` to initialize the default configurations.")
-            except (IOError, OSError):
-                self._console_view.show(
-                    "Unable to load config file. It may have become corrupt or we don't \
-                        have permission to access it. Run setup command again to \
-                        fix this issue")
 
             # Delete stored input if use doesn't want to keep using it
             if file_format and file_path and filename:
@@ -94,10 +90,9 @@ class Controller:
         # Parse arguments from user, if the exist
         else:
             parsed_args = self.__parse_args(args)
-            if parsed_args:
-                file_path = parsed_args.f
-                filename = parsed_args.o
-                file_format = parsed_args.t
+            file_path = parsed_args.f
+            filename = parsed_args.o
+            file_format = parsed_args.t
 
         # Ask user where the file/directory is
         if not file_path:
@@ -115,24 +110,18 @@ class Controller:
 
         try:
             # Get file
-            file = self._read.load_file(file_path)
-        except IOError as error:
+            loaded_file = self._read.load_file(file_path)
+        except (IOError, FileNotFoundError) as error:
             self.__file_reader_error_handler(error)
+            return
 
         # Convert file to dot graph
         try:
-            dot_graph = self._converter.convert(file)
-        except TypeError:
+            dot_graph = self._converter.convert(loaded_file)
+        except JSParseException:
             self._console_view.show(
-                "Was that a valid JS file?. Let's try again")
-            self.parse()
-        except Exception as error:
-            # ESPrima will throw a generic error called "Error"
-            if type(error).__name__ == "Error":
-                self._console_view.show(
-                    "Was that a valid JS file?. If it was TS,"
-                    "we can't parse that yet. Let's try again")
-                self.parse()
+                'Unable to parse file. Was it a valid JS file?')
+            return
 
         # Save dot graph to set file format
         try:
@@ -209,17 +198,17 @@ class Controller:
                 "[ReadWrite Error] File not found. "
                 "Did you select the right file or path?"
             )
-        self.parse()
+        return
 
     def __parse_args(self, args: str) -> Namespace:
         """Parses arguments passed from the command-line"""
         if args:
-            args, _ = self.__parser.parse_known_args(args.split())
-            return args
+            parsed_args, _ = self.__parser.parse_known_args(args.split())
+            return parsed_args
 
     def __save_error_handler(self) -> None:
         self._console_view.show(
             "I couldn't save that for some reason. "
             "Let's try again"
         )
-        self.parse()
+        return

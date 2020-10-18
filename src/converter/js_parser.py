@@ -7,6 +7,7 @@
 
 from esprima import parse as js_parse
 from .body_type_enum import BodyType
+from src.errors.js_parse_exception import JSParseException
 
 
 class JSParser:
@@ -47,6 +48,8 @@ class JSParser:
                 return self.__results
             except TypeError as error:
                 raise error
+            except Exception as error:
+                raise JSParseException("Failed to parse file")
 
     def __extract_js_data(self):
         """Loop through each class and extra all attributes from it

@@ -11,3 +11,5 @@ nosetests.xml
 config/storage_location
 config/default_filetype
 config/default_filename
+filename.png
+filename
