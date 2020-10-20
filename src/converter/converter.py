@@ -5,7 +5,7 @@
 =============================================
 """
 from graphviz import Digraph
-from src.converter.abstract_converter import AbstractConverter
+from src.converter.model.abstract_converter import AbstractConverter
 from src.converter.js_parser import JSParser
 from src.converter.digraph_converter import DigraphConverter
 from src.errors.digraph_save_exception import DigraphSaveException

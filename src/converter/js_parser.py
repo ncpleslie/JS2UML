@@ -6,19 +6,21 @@
 """
 
 from esprima import parse as js_parse
-from .body_type_enum import BodyType
+from src.converter.model.body_type_enum import BodyType
 from src.errors.js_parse_exception import JSParseException
+from src.converter.model.abstract_parser import AbstractParser
+from src.converter.js_extraction import JSExtraction
 
 
-class JSParser:
+class JSParser(AbstractParser):
     """The JavaScript Parser. Will convert the file contents of \
         JavaScript class into class names, \
         attributes, methods and relationships
     """
 
     def __init__(self):
+        AbstractParser.__init__(self)
         self.__parse_results = None
-        self.__results = []
 
     def parse(self, input: str) -> list:
         """Parse a JavaScript file's contents and extract
@@ -45,28 +47,23 @@ class JSParser:
             try:
                 self.__parse_results = js_parse(input)
                 self.__extract_js_data()
-                return self.__results
+                return self._results
             except TypeError as error:
                 raise error
             except Exception as error:
                 raise JSParseException("Failed to parse file")
 
-    def __extract_js_data(self):
+    def __extract_js_data(self) -> None:
         """Loop through each class and extra all attributes from it
         """
         for data in self.__parse_results.body:
-            class_name = self.__get_class(data)
-            attributes = self.__get_attributes(data)
-            methods = self.__get_methods(data.body.body)
-            relationship = self.__get_relationship(data.body.body)
-            self.__results.append(
-                {
-                    "class_name": class_name,
-                    "attributes": attributes,
-                    "methods": methods,
-                    "edges": relationship,
-                }
-            )
+            js_extraction = JSExtraction()
+            js_extraction.set_name(self.__get_class(data))
+            js_extraction.set_attributes(self.__get_attributes(data))
+            js_extraction.set_methods(self.__get_methods(data.body.body))
+            js_extraction.set_relationships(
+                self.__get_relationship(data.body.body))
+            self._results.append(js_extraction)
 
     def __get_attributes(self, data: dict) -> list:
         """Get the attributes of the class

@@ -8,7 +8,7 @@ from argparse import ArgumentParser, Namespace
 from errno import EACCES, ENOENT
 from src.input_output.read import Read
 from src.console_view.abstract_console_view import AbstractConsoleView
-from src.converter.abstract_converter import AbstractConverter
+from src.converter.model.abstract_converter import AbstractConverter
 from src.errors.digraph_save_exception import DigraphSaveException
 from src.errors.js_parse_exception import JSParseException
 from src.input_output.config import Config

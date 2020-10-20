@@ -7,6 +7,7 @@
 
 from graphviz import Digraph, Source
 from src.js2uml_constants import JS2UMLConstants
+from src.converter.model.abstract_extraction import AbstractExtraction
 
 
 class DigraphConverter:
@@ -72,28 +73,24 @@ class DigraphConverter:
         """
         self.__dot_graph = Digraph("class_diagram")
 
-    def __set_edge(self, data: dict):
+    def __set_edge(self, data: AbstractExtraction):
         """Sets the edge. Edges are the relationships to other classes
 
         Args:
             data (dict): The parsed JS data
         """
-        for edge in data["edges"]:
-            self.__dot_graph.edge(data["class_name"], edge)
+        for edge in data.get_relationships():
+            self.__dot_graph.edge(data.get_class_name(), edge)
 
-    def __set_node(self, data: dict):
+    def __set_node(self, data: AbstractExtraction):
         """Sets the node. Nodes are the classes. Will \
             contain the attributes, methods and name
 
         Args:
             data (dict): The parsed JS data
         """
+        class_name = data.get_class_name()
+        attributes = r"\l".join(data.get_attributes())
+        methods = r"()\l".join(data.get_methods()) + '()'
         self.__dot_graph.node(
-            data["class_name"],
-            "{{{className}|{attributes}|{methods}}}".format(
-                className=data["class_name"],
-                attributes="\l".join(data["attributes"]),
-                methods="()\l".join(data["methods"]) + "()",
-            ),
-            shape="record",
-        )
+            class_name, f"{{{class_name}|{attributes}|{methods}}}", shape="record",)
