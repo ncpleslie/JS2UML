@@ -22,8 +22,7 @@ class AbstractExtraction(ABC):
         self.__relationships = relationships
 
     def get_class_name(self) -> str:
-        if self.__class_name:
-            return self.__class_name
+        return self.__class_name
 
     def get_methods(self) -> list:
         return self.__methods
