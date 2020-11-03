@@ -1,7 +1,4 @@
-from src.converter.model.abstract_extraction import AbstractExtraction
-
-
-class Extraction(AbstractExtraction):
+class Extraction:
 
     def __init__(self):
         self.__class_name = None

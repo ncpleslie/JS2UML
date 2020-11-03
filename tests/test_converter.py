@@ -11,13 +11,14 @@ from graphviz import Digraph
 from os import path
 from src.converter.converter import Converter
 from src.errors.digraph_save_exception import DigraphSaveException
+from src.converter.js_parser import JSParser
 
 
 class TestConverter(TestCase):
 
     def test_save_expected_input(self):
         # arrange
-        converter = Converter()
+        converter = Converter(JSParser())
         input = Digraph()
         expected_filename = 'test_file'
         expected_file_format = 'png'
@@ -30,7 +31,7 @@ class TestConverter(TestCase):
 
     def test_save_unexpected_input(self):
         # arrange
-        converter = Converter()
+        converter = Converter(JSParser())
         input = object()
         expected_filename = 'test_file'
         expected_file_format = 'png'
@@ -42,7 +43,7 @@ class TestConverter(TestCase):
 
     def test_convert_expected_input(self):
         # arrange
-        converter = Converter()
+        converter = Converter(JSParser())
         js_string = 'class Patient {constructor(issue) \
             {this.issue = new Object();} }'
         expected_result = Digraph()
@@ -53,7 +54,7 @@ class TestConverter(TestCase):
 
     def test_convert_unexpected_input(self):
         # arrange
-        converter = Converter()
+        converter = Converter(JSParser())
         incorrect_input = object()
         expected_exception = TypeError
 

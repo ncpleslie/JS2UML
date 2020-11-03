@@ -7,6 +7,7 @@
 
 from unittest import TestCase
 from src.converter.js_parser import JSParser
+from src.converter.extraction import Extraction
 
 
 class TestJSParser(TestCase):
@@ -16,12 +17,11 @@ class TestJSParser(TestCase):
         js_parser = JSParser()
         js_string = 'class Patient {constructor(issue) {this.issue = '\
             'new Object();} aMethod(){console.log(""); const x = new String();}}'
-        expected_result = [{'class_name': 'Patient', 'attributes': [
-            'issue'], 'methods': ['constructor', 'aMethod'], 'edges': {'Object', 'String'}}]
+        expected_result = list()
         # act
         result = js_parser.parse(js_string)
         # assert
-        self.assertEqual(result, expected_result)
+        self.assertEqual(type(result.body), type(expected_result))
 
     def test_parse_partial_expected_input(self):
         # arrange
@@ -50,12 +50,11 @@ class TestJSParser(TestCase):
         # arrange
         js_parser = JSParser()
         js_string = 'class Patient {}'
-        expected_result = [{'class_name': 'Patient', 'attributes': [],
-                            'methods': [], 'edges': set()}]
+        expected_result = list()
         # act
         result = js_parser.parse(js_string)
         # assert
-        self.assertEqual(result, expected_result)
+        self.assertEqual(type(result.body), type(expected_result))
 
     def test_parse_solo_method(self):
         # arrange

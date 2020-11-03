@@ -10,6 +10,7 @@ from src.converter.js_parser import JSParser
 from src.converter.digraph_converter import DigraphConverter
 from src.errors.digraph_save_exception import DigraphSaveException
 from src.converter.model.abstract_parser import AbstractParser
+from src.errors.js_parse_exception import JSParseException
 
 
 class Converter(AbstractConverter):
@@ -41,6 +42,9 @@ class Converter(AbstractConverter):
         """
         try:
             parsed_results = self.parser.parse(file_data)
+        except JSParseException:
+            raise JSParseException("Failed to parse file")
+        try:
             extracted_data = []
             for data in parsed_results.body:
                 self.parser.add_class_name(data)
@@ -49,9 +53,8 @@ class Converter(AbstractConverter):
                 self.parser.add_relationships(data.body.body)
                 extracted_data.append(self.parser.get_extracted_data())
             return DigraphConverter().convert(extracted_data)
-        except Exception as error:
-            # ESPrima will throw a generic error
-            raise error
+        except Exception:
+            raise JSParseException("Failed to parse file")
 
     def save(self, dot_graph: Digraph, filename:
              str, file_format: str) -> None:
