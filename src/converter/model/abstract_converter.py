@@ -11,8 +11,9 @@ from abc import ABC, abstractmethod
 class AbstractConverter(ABC):
     """Base for the Converter class. Will convert JS to DOT graph
     """
+
     @abstractmethod
-    def convert(self, input: str):
+    def convert(self, file_data: str):
         """Converts a JS file to a DOT graph
 
         Args:

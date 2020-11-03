@@ -9,7 +9,7 @@ from esprima import parse as js_parse
 from src.converter.model.body_type_enum import BodyType
 from src.errors.js_parse_exception import JSParseException
 from src.converter.model.abstract_parser import AbstractParser
-from src.converter.js_extraction import JSExtraction
+from src.converter.extraction import Extraction
 
 
 class JSParser(AbstractParser):
@@ -18,54 +18,16 @@ class JSParser(AbstractParser):
         attributes, methods and relationships
     """
 
-    def __init__(self):
-        AbstractParser.__init__(self)
-        self.__parse_results = None
+    def parse(self, file_data: str):
+        """Parse a JS file and extract an EST"""
+        try:
+            return js_parse(file_data)
+        except TypeError as error:
+            raise error
+        except Exception as error:
+            raise JSParseException("Failed to parse file")
 
-    def parse(self, input: str) -> list:
-        """Parse a JavaScript file's contents and extract
-        the class names, attributes, methods and relationships
-
-        Args:
-            input (str): The JavaScript file's contents
-
-        Raises:
-            error: TypeError if unable to parse the JS file
-
-        Returns:
-            dist[]: A list of dicts. Each dict is a class
-
-        >>> t = JSParser()
-        >>> results = t.parse("class Patient {\
-            constructor(issue) {\
-                this.issue = new Object();\
-                    }}")
-        >>> print(results)
-        [{'class_name': 'Patient', 'attributes': ['issue'], 'methods': ['constructor'], 'edges': {'Object'}}]
-        """
-        if input:
-            try:
-                self.__parse_results = js_parse(input)
-                self.__extract_js_data()
-                return self._results
-            except TypeError as error:
-                raise error
-            except Exception as error:
-                raise JSParseException("Failed to parse file")
-
-    def __extract_js_data(self) -> None:
-        """Loop through each class and extra all attributes from it
-        """
-        for data in self.__parse_results.body:
-            js_extraction = JSExtraction()
-            js_extraction.set_name(self.__get_class(data))
-            js_extraction.set_attributes(self.__get_attributes(data))
-            js_extraction.set_methods(self.__get_methods(data.body.body))
-            js_extraction.set_relationships(
-                self.__get_relationship(data.body.body))
-            self._results.append(js_extraction)
-
-    def __get_attributes(self, data: dict) -> list:
+    def add_attributes(self, data: dict) -> list:
         """Get the attributes of the class
 
         Args:
@@ -82,10 +44,10 @@ class JSParser(AbstractParser):
             ):
                 for aAttribute in body.value.body.body:
                     attributes.append(aAttribute.expression.left.property.name)
-        return attributes
+        self.extraction.set_attributes(attributes)
 
-    def __get_class(self, body: dict) -> str:
-        """Retuns the current class name
+    def add_class_name(self, body: dict) -> str:
+        """Returns the current class name
 
         Args:
             body (dict): The AST of the parsed file
@@ -93,9 +55,9 @@ class JSParser(AbstractParser):
         Returns:
             str: Class name
         """
-        return body.id.name
+        self.extraction.set_name(body.id.name)
 
-    def __get_methods(self, data: dict) -> list:
+    def add_methods(self, data: dict) -> list:
         """Extracts the method names from a class
 
         Args:
@@ -104,10 +66,11 @@ class JSParser(AbstractParser):
         Returns:
             list: List of strings containing extracted method names
         """
-        return [body.key.name for body in data if
-                body.type == BodyType.METHOD.value]
+        results = [body.key.name for body in data if body.type ==
+                   BodyType.METHOD.value]
+        self.extraction.set_methods(results)
 
-    def __get_relationship(self, data: dict) -> set:
+    def add_relationships(self, data: dict) -> set:
         """Extracts the relationships with other classes
 
         Args:
@@ -139,4 +102,4 @@ class JSParser(AbstractParser):
                         for aArgument in aMethod.expression.arguments:
                             if aArgument.type == BodyType.NEW.value:
                                 relationship.add(aArgument.callee.name)
-        return relationship
+        self.extraction.set_relationships(relationship)
