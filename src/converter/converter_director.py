@@ -5,20 +5,22 @@
 =============================================
 """
 from graphviz import Digraph
-from src.converter.model.abstract_converter import AbstractConverter
-from src.converter.js_parser import JSParser
+from src.converter.model.iconverter import IConverter
 from src.converter.digraph_converter import DigraphConverter
 from src.errors.digraph_save_exception import DigraphSaveException
-from src.converter.model.abstract_parser import AbstractParser
+from src.converter.model.abstract_parser_builder import AbstractParserBuilder
 from src.errors.parse_exception import ParseException
 
 
-class Converter(AbstractConverter):
+class ConverterDirector(IConverter):
     """Facilitates the conversion of JS files to UML class diagrams
     """
 
-    def __init__(self, parser: AbstractParser):
-        self.parser = parser
+    def __init__(self, builder: AbstractParserBuilder):
+        self.builder = builder
+
+    def change_builder(self, builder: AbstractParserBuilder):
+        self.builder = builder
 
     def convert(self, file_data: str) -> Digraph:
         """Converts a JS file to a DOT graph
@@ -41,17 +43,17 @@ class Converter(AbstractConverter):
         <class 'graphviz.dot.Digraph'>
         """
         try:
-            parsed_results = self.parser.parse(file_data)
+            parsed_results = self.builder.parse(file_data)
         except ParseException:
             raise ParseException("Failed to parse file")
         try:
             extracted_data = []
             for data in parsed_results.body:
-                self.parser.add_class_name(data)
-                self.parser.add_attributes(data)
-                self.parser.add_methods(data)
-                self.parser.add_relationships(data)
-                extracted_data.append(self.parser.get_extracted_data())
+                self.builder.add_class_name(data)
+                self.builder.add_attributes(data)
+                self.builder.add_methods(data)
+                self.builder.add_relationships(data)
+                extracted_data.append(self.builder.get_extracted_data())
             return DigraphConverter().convert(extracted_data)
         except Exception as error:
             print(error)

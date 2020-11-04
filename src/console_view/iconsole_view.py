@@ -8,7 +8,7 @@
 from abc import ABC, abstractmethod
 
 
-class AbstractConsoleView(ABC):
+class IConsoleView(ABC):
     """For display and extract user input on the console
     """
 

@@ -8,11 +8,11 @@
 from esprima import parse as js_parse
 from src.converter.model.body_type_enum import BodyType
 from src.errors.parse_exception import ParseException
-from src.converter.model.abstract_parser import AbstractParser
+from src.converter.model.abstract_parser_builder import AbstractParserBuilder
 from src.converter.extraction import Extraction
 
 
-class JSParser(AbstractParser):
+class JSParserBuilder(AbstractParserBuilder):
     """The JavaScript Parser. Will convert the file contents of \
         JavaScript class into class names, \
         attributes, methods and relationships

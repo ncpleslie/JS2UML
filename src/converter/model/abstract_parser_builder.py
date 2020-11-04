@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from src.converter.extraction import Extraction
 
 
-class AbstractParser(ABC):
+class AbstractParserBuilder(ABC):
     def __init__(self):
         self.extraction = Extraction()
 

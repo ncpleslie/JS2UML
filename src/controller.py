@@ -7,8 +7,8 @@
 from argparse import ArgumentParser, Namespace
 from errno import EACCES, ENOENT
 from src.input_output.read import Read
-from src.console_view.abstract_console_view import AbstractConsoleView
-from src.converter.model.abstract_converter import AbstractConverter
+from src.console_view.iconsole_view import IConsoleView
+from src.converter.model.iconverter import IConverter
 from src.errors.digraph_save_exception import DigraphSaveException
 from src.errors.parse_exception import ParseException
 from src.input_output.config import Config
@@ -19,17 +19,17 @@ class Controller:
     The main controller for the JS to UML parser
 
         Args:
-            console_view (AbstractConsoleView): A view class for the
+            console_view (IConsoleView): A view class for the
             console screen. Used to grab user input and display messages
-            converter (AbstractConverter): The JS parser.
+            converter (IConverter): The JS parser.
             Used to convert JS to AST, Digraph and output an image file
 
         Example:
             `Controller(View(), Converter()).parse()`
     """
 
-    def __init__(self, console_view: AbstractConsoleView,
-                 converter: AbstractConverter):
+    def __init__(self, console_view: IConsoleView,
+                 converter: IConverter):
         # Console View
         self._console_view = console_view
         # JS Parser

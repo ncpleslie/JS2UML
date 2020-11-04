@@ -8,7 +8,7 @@
 from abc import ABC, abstractmethod
 
 
-class AbstractConverter(ABC):
+class IConverter(ABC):
     """Base for the Converter class. Will convert JS to DOT graph
     """
 

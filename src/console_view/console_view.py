@@ -5,10 +5,10 @@
 =============================================
 """
 
-from src.console_view.abstract_console_view import AbstractConsoleView
+from src.console_view.iconsole_view import IConsoleView
 
 
-class ConsoleView(AbstractConsoleView):
+class ConsoleView(IConsoleView):
     """For display and extract user input on the console
     """
     count = 0
