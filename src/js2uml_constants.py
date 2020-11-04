@@ -22,7 +22,7 @@ class JS2UMLConstants:
     ]
 
     # supported input files
-    __supported_files = ("js")
+    __supported_files = ("js", "py")
 
     @classmethod
     def accepted_file_formats(cls) -> list:

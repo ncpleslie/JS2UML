@@ -7,7 +7,7 @@
 
 from esprima import parse as js_parse
 from src.converter.model.body_type_enum import BodyType
-from src.errors.js_parse_exception import JSParseException
+from src.errors.parse_exception import ParseException
 from src.converter.model.abstract_parser import AbstractParser
 from src.converter.extraction import Extraction
 
@@ -25,7 +25,7 @@ class JSParser(AbstractParser):
         except TypeError as error:
             raise error
         except Exception as error:
-            raise JSParseException("Failed to parse file")
+            raise ParseException("Failed to parse file")
 
     def add_attributes(self, data: dict) -> list:
         """Get the attributes of the class
@@ -66,7 +66,7 @@ class JSParser(AbstractParser):
         Returns:
             list: List of strings containing extracted method names
         """
-        results = [body.key.name for body in data if body.type ==
+        results = [body.key.name for body in data.body.body if body.type ==
                    BodyType.METHOD.value]
         self.extraction.set_methods(results)
 
@@ -80,7 +80,7 @@ class JSParser(AbstractParser):
             set: A set of strings of the relationships to other classes
         """
         relationship = set()
-        for body in data:
+        for body in data.body.body:
             # get relationships in the constructor
             relationship.update(
                 deep_body.expression.right.callee.name for deep_body in

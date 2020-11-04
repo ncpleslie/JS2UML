@@ -6,8 +6,8 @@
 """
 
 
-class JSParseException(Exception):
-    """For errors involving the process of parsing a JS file"""
+class ParseException(Exception):
+    """For errors involving the process of parsing a file"""
 
     def __init__(self, message, errors=None):
         super().__init__(message)

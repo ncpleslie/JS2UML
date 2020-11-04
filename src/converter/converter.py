@@ -10,7 +10,7 @@ from src.converter.js_parser import JSParser
 from src.converter.digraph_converter import DigraphConverter
 from src.errors.digraph_save_exception import DigraphSaveException
 from src.converter.model.abstract_parser import AbstractParser
-from src.errors.js_parse_exception import JSParseException
+from src.errors.parse_exception import ParseException
 
 
 class Converter(AbstractConverter):
@@ -42,19 +42,20 @@ class Converter(AbstractConverter):
         """
         try:
             parsed_results = self.parser.parse(file_data)
-        except JSParseException:
-            raise JSParseException("Failed to parse file")
+        except ParseException:
+            raise ParseException("Failed to parse file")
         try:
             extracted_data = []
             for data in parsed_results.body:
                 self.parser.add_class_name(data)
                 self.parser.add_attributes(data)
-                self.parser.add_methods(data.body.body)
-                self.parser.add_relationships(data.body.body)
+                self.parser.add_methods(data)
+                self.parser.add_relationships(data)
                 extracted_data.append(self.parser.get_extracted_data())
             return DigraphConverter().convert(extracted_data)
-        except Exception:
-            raise JSParseException("Failed to parse file")
+        except Exception as error:
+            print(error)
+            raise ParseException("Failed to parse file")
 
     def save(self, dot_graph: Digraph, filename:
              str, file_format: str) -> None:

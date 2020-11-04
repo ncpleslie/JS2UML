@@ -10,7 +10,7 @@ from src.input_output.read import Read
 from src.console_view.abstract_console_view import AbstractConsoleView
 from src.converter.model.abstract_converter import AbstractConverter
 from src.errors.digraph_save_exception import DigraphSaveException
-from src.errors.js_parse_exception import JSParseException
+from src.errors.parse_exception import ParseException
 from src.input_output.config import Config
 
 
@@ -98,7 +98,7 @@ class Controller:
         if not file_path:
             file_path = self._console_view.get_input(
                 "Please enter the directory or "
-                "filename of the JS/TS file(s)"
+                "filename of the JS/PY file(s)"
             )
         # Ask user what they want the file called
         if not filename:
@@ -118,9 +118,9 @@ class Controller:
         # Convert file to dot graph
         try:
             dot_graph = self._converter.convert(loaded_file)
-        except JSParseException:
+        except ParseException:
             self._console_view.show(
-                'Unable to parse file. Was it a valid JS file?')
+                'Unable to parse file. Was it a valid JS or PY file?')
             return
 
         # Save dot graph to set file format
