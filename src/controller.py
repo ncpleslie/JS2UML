@@ -12,6 +12,7 @@ from src.converter.model.iconverter import IConverter
 from src.errors.digraph_save_exception import DigraphSaveException
 from src.errors.parse_exception import ParseException
 from src.input_output.config import Config
+from src.parser_factory.abstract_parser_creator import AbstractParserCreator
 
 
 class Controller:
@@ -29,11 +30,13 @@ class Controller:
     """
 
     def __init__(self, console_view: IConsoleView,
-                 converter: IConverter):
+                 converter: IConverter, changer: AbstractParserCreator):
         # Console View
         self._console_view = console_view
         # JS Parser
         self._converter = converter
+        # Parser changer
+        self._changer = changer
         # File/directory reader
         self._read = Read()
         # Argparser for parsing arguments and flags from command line
@@ -44,6 +47,7 @@ class Controller:
     def help(self) -> None:
         """Displays the help screen"""
         self._console_view.show(
+            "Change which files can be parsed. Currently supported are JavaScript and Python\n"
             "setup     Set default filenames, directories and filetypes\n"
             "parse     Convert a JavaScript file to a UML class diagram\n"
             "exit      Exits the program")
@@ -51,6 +55,11 @@ class Controller:
     def exit(self) -> None:
         """Exits the programs"""
         exit()
+
+    def change(self) -> None:
+        """Changes which parser is set.
+        Will swap between JS parser or Py parser"""
+        self._converter.change_builder(self._changer.pick_parser_factory())
 
     def parse(self, args=None) -> None:
         """

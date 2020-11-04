@@ -28,6 +28,10 @@ class CommandLine(Cmd):
         else:
             self._controller.help()
 
+    def do_change(self, arg):
+        """Change which files can be parsed. Currently supported are JavaScript and Python"""
+        self._controller.change()
+
     def do_setup(self, arg):
         "Setup allows you initialise the program and set the configurations "\
             "you want. These include default input directory, "\

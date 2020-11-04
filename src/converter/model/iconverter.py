@@ -6,11 +6,16 @@
 """
 
 from abc import ABC, abstractmethod
+from src.converter.model.abstract_parser_builder import AbstractParserBuilder
 
 
 class IConverter(ABC):
     """Base for the Converter class. Will convert JS to DOT graph
     """
+
+    @abstractmethod
+    def change_builder(self, builder: AbstractParserBuilder):
+        raise NotImplementedError()
 
     @abstractmethod
     def convert(self, file_data: str):
