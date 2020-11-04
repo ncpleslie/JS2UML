@@ -7,10 +7,10 @@ from src.console_view.iconsole_view import IConsoleView
 
 class UserDefinedParserCreator(AbstractParserCreator):
     def __init__(self, iconsole_view: IConsoleView):
-        self.view = iconsole_view
+        self._view = iconsole_view
 
     def pick_parser_factory(self) -> AbstractParserBuilder:
-        response = self.view.get_yes_no_input(
+        response = self._view.get_yes_no_input(
             "Convert JS files? Enter 'Y'.\nConvert Py files? Enter 'n'")
 
         if response:

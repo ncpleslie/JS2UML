@@ -9,14 +9,14 @@ from random import randint
 
 class RandomParserCreator(AbstractParserCreator):
     def __init__(self, iconsole_view: IConsoleView):
-        self.view = iconsole_view
-        self.threshold = 5
+        self._view = iconsole_view
+        self.__threshold = 5
 
     def pick_parser_factory(self) -> AbstractParserBuilder:
-        self.view.show(
+        self._view.show(
             "Changing what files can be converted. WILDCARD BABY! YEEHAW!")
         self.__generate_random_number()
-        if self.__generate_random_number() <= self.threshold:
+        if self.__generate_random_number() <= self.__threshold:
             return JSParserBuilder()
         return PyParserBuilder()
 
