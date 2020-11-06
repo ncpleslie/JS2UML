@@ -16,6 +16,7 @@ class RandomParserCreator(AbstractParserCreator):
 
     def pick_parser_factory(self) -> AbstractParserBuilder:
         """Randomly switch the JS and Python parsers"""
+
         self._view.show(
             "Changing what files can be converted. WILDCARD BABY! YEEHAW!")
         self.__generate_random_number()
@@ -24,5 +25,6 @@ class RandomParserCreator(AbstractParserCreator):
         return PyParserBuilder()
 
     def __generate_random_number(self):
+        """Returns a random int between 1 and 10"""
         seed(1)
         return randint(0, 10)
