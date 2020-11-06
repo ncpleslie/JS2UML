@@ -8,11 +8,14 @@ from random import randint
 
 
 class RandomParserCreator(AbstractParserCreator):
+    """Randomly switches the current code parser"""
+
     def __init__(self, iconsole_view: IConsoleView):
         self._view = iconsole_view
         self.__threshold = 5
 
     def pick_parser_factory(self) -> AbstractParserBuilder:
+        """Randomly switch the JS and Python parsers"""
         self._view.show(
             "Changing what files can be converted. WILDCARD BABY! YEEHAW!")
         self.__generate_random_number()
