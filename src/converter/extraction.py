@@ -1,5 +1,8 @@
 class Extraction:
-    """The returned product from a code parser. Can be converted to a Digraph object"""
+    """
+        The returned product from a code parser. 
+        Can be converted to a Digraph object
+    """
 
     def __init__(self):
         self.__class_name = None

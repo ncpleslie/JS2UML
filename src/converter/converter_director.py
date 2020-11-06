@@ -79,5 +79,5 @@ class ConverterDirector(IConverter):
         """
         try:
             DigraphConverter().render(dot_graph, filename)
-        except (Exception, TypeError) as error:
+        except (Exception, TypeError):
             raise DigraphSaveException("Failed to save digraph")
