@@ -9,8 +9,8 @@ from unittest import TestCase
 from src.command_line import CommandLine
 from src.controller import Controller
 from src.console_view.console_view import ConsoleView
-from src.converter.converter import Converter
-from src.converter.js_parser import JSParser
+from src.converter.converter_director import ConverterDirector
+from src.converter.js_parser_builder import JSParserBuilder
 
 
 class TestCommandLine(TestCase):
@@ -39,7 +39,7 @@ class TestCommandLine(TestCase):
 
     def test_parse(self):
         cmd_line = CommandLine(Controller(
-            ConsoleView(), Converter(JSParser())))
+            ConsoleView(), ConverterDirector(JSParserBuilder())))
         input = '-f test_js/basic -o filename -t png'
         cmd_line.do_parse(input)
         self.assertTrue

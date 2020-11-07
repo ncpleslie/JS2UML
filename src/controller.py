@@ -133,11 +133,7 @@ class Controller:
             return
 
         # Save dot graph to set file format
-        try:
-            self._converter.save(dot_graph, filename, file_format)
-        except (DigraphSaveException, TypeError, UnboundLocalError) as error:
-            print(error)
-            self.__save_error_handler()
+        self._converter.save(dot_graph, filename, file_format)
 
         self._console_view.show('JS2UML Conversion Complete')
         return
@@ -214,10 +210,3 @@ class Controller:
         if args:
             parsed_args, _ = self.__parser.parse_known_args(args.split())
             return parsed_args
-
-    def __save_error_handler(self) -> None:
-        self._console_view.show(
-            "I couldn't save that for some reason. "
-            "Let's try again"
-        )
-        return

@@ -10,14 +10,13 @@ from os import path, remove
 from pickle import dump
 from errno import ENOENT
 from src.controller import Controller
-from src.converter.converter import Converter
-from src.console_view.abstract_console_view import AbstractConsoleView
+from src.converter.converter_director import ConverterDirector
+from src.console_view.iconsole_view import IConsoleView
 from src.input_output.config import Config
-from src.converter.js_parser import JSParser
-from src.errors.js_parse_exception import JSParseException
+from src.converter.js_parser_builder import JSParserBuilder
 
 
-class MockConsoleView(AbstractConsoleView):
+class MockConsoleView(IConsoleView):
     count = -1
 
     def __init__(self, output):
@@ -38,17 +37,20 @@ class MockConsoleView(AbstractConsoleView):
 class TestCommandLine(TestCase):
 
     def test_parse_no_args(self):
-        controller = Controller(MockConsoleView(True), Converter(JSParser()))
+        controller = Controller(MockConsoleView(
+            True), ConverterDirector(JSParserBuilder()))
         controller.parse(None)
         self.assertTrue
 
     def test_parse_no_args_use_default(self):
-        controller = Controller(MockConsoleView(False), Converter(JSParser()))
+        controller = Controller(MockConsoleView(
+            False), ConverterDirector(JSParserBuilder()))
         controller.parse(None)
         self.assertTrue
 
     def test_parse_with_args(self):
-        controller = Controller(MockConsoleView(True), Converter(JSParser()))
+        controller = Controller(MockConsoleView(
+            True), ConverterDirector(JSParserBuilder()))
         controller.parse('-f test_js/basic -o filename -t png')
         self.assertTrue
 
@@ -64,7 +66,8 @@ class TestCommandLine(TestCase):
         if path.exists(storage_config):
             remove(storage_config)
 
-        controller = Controller(MockConsoleView(True), Converter(JSParser()))
+        controller = Controller(MockConsoleView(
+            True), ConverterDirector(JSParserBuilder()))
         controller.parse(None)
         self.assertTrue
 
@@ -80,7 +83,8 @@ class TestCommandLine(TestCase):
         if path.exists(storage_config):
             remove(storage_config)
 
-        controller = Controller(MockConsoleView(True), Converter(JSParser()))
+        controller = Controller(MockConsoleView(
+            True), ConverterDirector(JSParserBuilder()))
         controller.parse('-f test_js/basic -o filename -t png')
         self.assertTrue
 
@@ -96,7 +100,8 @@ class TestCommandLine(TestCase):
         if path.exists(storage_config):
             remove(storage_config)
 
-        controller = Controller(MockConsoleView(True), Converter(JSParser()))
+        controller = Controller(MockConsoleView(
+            True), ConverterDirector(JSParserBuilder()))
         controller.parse('abc')
         self.assertTrue
 
@@ -112,7 +117,8 @@ class TestCommandLine(TestCase):
         if path.exists(storage_config):
             remove(storage_config)
 
-        controller = Controller(MockConsoleView(True), Converter(JSParser()))
+        controller = Controller(MockConsoleView(
+            True), ConverterDirector(JSParserBuilder()))
         controller.parse('-f test_js/ -o filename -t png')
         self.assertTrue
 
@@ -128,7 +134,8 @@ class TestCommandLine(TestCase):
         if path.exists(storage_config):
             remove(storage_config)
 
-        controller = Controller(MockConsoleView(True), Converter(JSParser()))
+        controller = Controller(MockConsoleView(
+            True), ConverterDirector(JSParserBuilder()))
         controller.parse('-f test/ -o filename -t png')
         self.assertTrue
 
@@ -144,7 +151,8 @@ class TestCommandLine(TestCase):
         if path.exists(storage_config):
             remove(storage_config)
 
-        controller = Controller(MockConsoleView(True), Converter(JSParser()))
+        controller = Controller(MockConsoleView(
+            True), ConverterDirector(JSParserBuilder()))
         controller.parse(
             '-f test_js/bad/not_a_valid_file.py -o filename -t png')
         self.assertTrue
@@ -161,7 +169,8 @@ class TestCommandLine(TestCase):
         if path.exists(storage_config):
             remove(storage_config)
 
-        controller = Controller(MockConsoleView(True), Converter(JSParser()))
+        controller = Controller(MockConsoleView(
+            True), ConverterDirector(JSParserBuilder()))
         controller.parse(
             '-f test_js/bad/incorrect_name.py -o filename -t png')
         self.assertTrue
@@ -178,13 +187,13 @@ class TestCommandLine(TestCase):
         if path.exists(storage_config):
             remove(storage_config)
 
-        controller = Controller(MockConsoleView(True), Converter(JSParser()))
+        controller = Controller(MockConsoleView(
+            True), ConverterDirector(JSParserBuilder()))
         controller.parse(
             '-f test_js/bad/invalid.js -o filename -t png')
         self.assertTrue
 
     def test_parse_remove_config_replaced_with_bad_config(self):
-        expected_exception = JSParseException
         filename_config = "config/default_filename"
         filetype_config = "config/default_filetype"
         storage_config = "config/storage_location"
@@ -211,36 +220,42 @@ class TestCommandLine(TestCase):
                             list(data.keys())[0]), 'wb') as config:
             dump(data, config)
 
-        controller = Controller(MockConsoleView(True), Converter(JSParser()))
+        controller = Controller(MockConsoleView(
+            True), ConverterDirector(JSParserBuilder()))
 
         controller.parse(
             '-f test_js/bad/invalid.js -o filename -t png')
         self.assertTrue
 
     def test_setup_with_args(self):
-        controller = Controller(MockConsoleView(True), Converter(JSParser()))
+        controller = Controller(MockConsoleView(
+            True), ConverterDirector(JSParserBuilder()))
         controller.setup(
             '-f test_js/bad/invalid.js -o filename -t png')
         self.assertTrue
 
     def test_setup_without_args(self):
-        controller = Controller(MockConsoleView(True), Converter(JSParser()))
+        controller = Controller(MockConsoleView(
+            True), ConverterDirector(JSParserBuilder()))
         controller.setup(None)
         self.assertTrue
 
     def test_setup_with_bad_args(self):
-        controller = Controller(MockConsoleView(True), Converter(JSParser()))
+        controller = Controller(MockConsoleView(
+            True), ConverterDirector(JSParserBuilder()))
         controller.setup(
             '-f test_js/bad/ -o filename -t abc')
         self.assertTrue
 
     def test___parse_args_with_no_args(self):
-        controller = Controller(MockConsoleView(True), Converter(JSParser()))
+        controller = Controller(MockConsoleView(
+            True), ConverterDirector(JSParserBuilder()))
         controller._Controller__parse_args(None)
         self.assertTrue
 
     def test___file_reader_error_handler(self):
-        controller = Controller(MockConsoleView(True), Converter(JSParser()))
+        controller = Controller(MockConsoleView(
+            True), ConverterDirector(JSParserBuilder()))
         error = Exception()
         error.errno = ENOENT
         controller._Controller__file_reader_error_handler(error)

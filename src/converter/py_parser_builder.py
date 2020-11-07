@@ -16,8 +16,6 @@ class PyParserBuilder(AbstractParserBuilder):
         """Parse a Py file and extract an EST"""
         try:
             return parse(file_data)
-        except TypeError as error:
-            raise error
         except Exception as error:
             print(error)
             raise ParseException('Failed to parse file')
