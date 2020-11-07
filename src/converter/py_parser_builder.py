@@ -10,8 +10,6 @@ class PyParserBuilder(AbstractParserBuilder):
     def parse(self, file_data: str):
         try:
             return parse(file_data)
-        except TypeError as error:
-            raise error
         except Exception as error:
             print(error)
             raise ParseException('Failed to parse file')

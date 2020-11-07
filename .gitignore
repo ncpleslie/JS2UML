@@ -5,8 +5,6 @@ __pycache__/
 .pytest_cache
 test_file.png
 test_file
-htmlcov/
-.coverage
 nosetests.xml
 config/storage_location
 config/default_filetype
