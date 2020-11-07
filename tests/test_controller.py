@@ -14,6 +14,7 @@ from src.converter.converter_director import ConverterDirector
 from src.console_view.iconsole_view import IConsoleView
 from src.input_output.config import Config
 from src.converter.js_parser_builder import JSParserBuilder
+from src.parser_factory.user_defined_parser_creator import UserDefinedParserCreator
 
 
 class MockConsoleView(IConsoleView):
@@ -38,19 +39,19 @@ class TestCommandLine(TestCase):
 
     def test_parse_no_args(self):
         controller = Controller(MockConsoleView(
-            True), ConverterDirector(JSParserBuilder()))
+            True), ConverterDirector(JSParserBuilder()), UserDefinedParserCreator(MockConsoleView(True)))
         controller.parse(None)
         self.assertTrue
 
     def test_parse_no_args_use_default(self):
         controller = Controller(MockConsoleView(
-            False), ConverterDirector(JSParserBuilder()))
+            False), ConverterDirector(JSParserBuilder()), UserDefinedParserCreator(MockConsoleView(True)))
         controller.parse(None)
         self.assertTrue
 
     def test_parse_with_args(self):
         controller = Controller(MockConsoleView(
-            True), ConverterDirector(JSParserBuilder()))
+            True), ConverterDirector(JSParserBuilder()), UserDefinedParserCreator(MockConsoleView(True)))
         controller.parse('-f test_js/basic -o filename -t png')
         self.assertTrue
 
@@ -67,7 +68,7 @@ class TestCommandLine(TestCase):
             remove(storage_config)
 
         controller = Controller(MockConsoleView(
-            True), ConverterDirector(JSParserBuilder()))
+            True), ConverterDirector(JSParserBuilder()), UserDefinedParserCreator(MockConsoleView(True)))
         controller.parse(None)
         self.assertTrue
 
@@ -83,8 +84,8 @@ class TestCommandLine(TestCase):
         if path.exists(storage_config):
             remove(storage_config)
 
-        controller = Controller(MockConsoleView(
-            True), ConverterDirector(JSParserBuilder()))
+        controller = Controller(MockConsoleView(True), ConverterDirector(
+            JSParserBuilder()), UserDefinedParserCreator(MockConsoleView(True)))
         controller.parse('-f test_js/basic -o filename -t png')
         self.assertTrue
 
@@ -101,7 +102,7 @@ class TestCommandLine(TestCase):
             remove(storage_config)
 
         controller = Controller(MockConsoleView(
-            True), ConverterDirector(JSParserBuilder()))
+            True), ConverterDirector(JSParserBuilder()), UserDefinedParserCreator(MockConsoleView(True)))
         controller.parse('abc')
         self.assertTrue
 
@@ -118,7 +119,7 @@ class TestCommandLine(TestCase):
             remove(storage_config)
 
         controller = Controller(MockConsoleView(
-            True), ConverterDirector(JSParserBuilder()))
+            True), ConverterDirector(JSParserBuilder()), UserDefinedParserCreator(MockConsoleView(True)))
         controller.parse('-f test_js/ -o filename -t png')
         self.assertTrue
 
@@ -135,7 +136,7 @@ class TestCommandLine(TestCase):
             remove(storage_config)
 
         controller = Controller(MockConsoleView(
-            True), ConverterDirector(JSParserBuilder()))
+            True), ConverterDirector(JSParserBuilder()), UserDefinedParserCreator(MockConsoleView(True)))
         controller.parse('-f test/ -o filename -t png')
         self.assertTrue
 
@@ -152,7 +153,7 @@ class TestCommandLine(TestCase):
             remove(storage_config)
 
         controller = Controller(MockConsoleView(
-            True), ConverterDirector(JSParserBuilder()))
+            True), ConverterDirector(JSParserBuilder()), UserDefinedParserCreator(MockConsoleView(True)))
         controller.parse(
             '-f test_js/bad/not_a_valid_file.py -o filename -t png')
         self.assertTrue
@@ -170,7 +171,7 @@ class TestCommandLine(TestCase):
             remove(storage_config)
 
         controller = Controller(MockConsoleView(
-            True), ConverterDirector(JSParserBuilder()))
+            True), ConverterDirector(JSParserBuilder()), UserDefinedParserCreator(MockConsoleView(True)))
         controller.parse(
             '-f test_js/bad/incorrect_name.py -o filename -t png')
         self.assertTrue
@@ -188,7 +189,7 @@ class TestCommandLine(TestCase):
             remove(storage_config)
 
         controller = Controller(MockConsoleView(
-            True), ConverterDirector(JSParserBuilder()))
+            True), ConverterDirector(JSParserBuilder()), UserDefinedParserCreator(MockConsoleView(True)))
         controller.parse(
             '-f test_js/bad/invalid.js -o filename -t png')
         self.assertTrue
@@ -221,7 +222,7 @@ class TestCommandLine(TestCase):
             dump(data, config)
 
         controller = Controller(MockConsoleView(
-            True), ConverterDirector(JSParserBuilder()))
+            True), ConverterDirector(JSParserBuilder()), UserDefinedParserCreator(MockConsoleView(True)))
 
         controller.parse(
             '-f test_js/bad/invalid.js -o filename -t png')
@@ -229,33 +230,33 @@ class TestCommandLine(TestCase):
 
     def test_setup_with_args(self):
         controller = Controller(MockConsoleView(
-            True), ConverterDirector(JSParserBuilder()))
+            True), ConverterDirector(JSParserBuilder()), UserDefinedParserCreator(MockConsoleView(True)))
         controller.setup(
             '-f test_js/bad/invalid.js -o filename -t png')
         self.assertTrue
 
     def test_setup_without_args(self):
         controller = Controller(MockConsoleView(
-            True), ConverterDirector(JSParserBuilder()))
+            True), ConverterDirector(JSParserBuilder()), UserDefinedParserCreator(MockConsoleView(True)))
         controller.setup(None)
         self.assertTrue
 
     def test_setup_with_bad_args(self):
         controller = Controller(MockConsoleView(
-            True), ConverterDirector(JSParserBuilder()))
+            True), ConverterDirector(JSParserBuilder()), UserDefinedParserCreator(MockConsoleView(True)))
         controller.setup(
             '-f test_js/bad/ -o filename -t abc')
         self.assertTrue
 
     def test___parse_args_with_no_args(self):
         controller = Controller(MockConsoleView(
-            True), ConverterDirector(JSParserBuilder()))
+            True), ConverterDirector(JSParserBuilder()), UserDefinedParserCreator(MockConsoleView(True)))
         controller._Controller__parse_args(None)
         self.assertTrue
 
     def test___file_reader_error_handler(self):
         controller = Controller(MockConsoleView(
-            True), ConverterDirector(JSParserBuilder()))
+            True), ConverterDirector(JSParserBuilder()), UserDefinedParserCreator(MockConsoleView(True)))
         error = Exception()
         error.errno = ENOENT
         controller._Controller__file_reader_error_handler(error)
