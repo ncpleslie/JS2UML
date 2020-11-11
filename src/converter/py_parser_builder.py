@@ -31,7 +31,7 @@ class PyParserBuilder(AbstractParserBuilder):
         """
         class_name = [c for c in walk(data) if isinstance(c, ClassDef)]
         for name in class_name:
-            self.extraction.set_name(name.name)
+            self.extraction[-1].set_name(name.name)
 
     def add_attributes(self, data):
         """Get the attributes of the class
@@ -46,7 +46,7 @@ class PyParserBuilder(AbstractParserBuilder):
         attributes = [c for c in walk(data) if isinstance(c, Attribute)]
         for attribute in attributes:
             all_attributes.append(attribute.attr)
-        self.extraction.set_attributes(all_attributes)
+        self.extraction[-1].set_attributes(all_attributes)
 
     def add_methods(self, data):
         """Extracts the method names from a class
@@ -61,7 +61,7 @@ class PyParserBuilder(AbstractParserBuilder):
         functions = [c for c in walk(data) if isinstance(c, FunctionDef)]
         for function in functions:
             methods.append(function.name)
-        self.extraction.set_methods(methods)
+        self.extraction[-1].set_methods(methods)
 
     def add_relationships(self, data):
         """Extracts the relationships with other classes
@@ -72,4 +72,4 @@ class PyParserBuilder(AbstractParserBuilder):
         Returns:
             set: A set of strings of the relationships to other classes
         """
-        self.extraction.set_relationships(set())
+        self.extraction[-1].set_relationships(set())

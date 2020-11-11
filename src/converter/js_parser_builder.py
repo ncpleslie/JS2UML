@@ -44,7 +44,7 @@ class JSParserBuilder(AbstractParserBuilder):
             ):
                 for aAttribute in body.value.body.body:
                     attributes.append(aAttribute.expression.left.property.name)
-        self.extraction.set_attributes(attributes)
+        self.extraction[-1].set_attributes(attributes)
 
     def add_class_name(self, body: dict) -> str:
         """Returns the current class name
@@ -55,7 +55,7 @@ class JSParserBuilder(AbstractParserBuilder):
         Returns:
             str: Class name
         """
-        self.extraction.set_name(body.id.name)
+        self.extraction[-1].set_name(body.id.name)
 
     def add_methods(self, data: dict) -> list:
         """Extracts the method names from a class
@@ -68,7 +68,7 @@ class JSParserBuilder(AbstractParserBuilder):
         """
         results = [body.key.name for body in data.body.body if body.type ==
                    BodyType.METHOD.value]
-        self.extraction.set_methods(results)
+        self.extraction[-1].set_methods(results)
 
     def add_relationships(self, data: dict) -> set:
         """Extracts the relationships with other classes
@@ -102,4 +102,4 @@ class JSParserBuilder(AbstractParserBuilder):
                         for aArgument in aMethod.expression.arguments:
                             if aArgument.type == BodyType.NEW.value:
                                 relationship.add(aArgument.callee.name)
-        self.extraction.set_relationships(relationship)
+        self.extraction[-1].set_relationships(relationship)
